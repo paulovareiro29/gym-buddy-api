@@ -8,7 +8,6 @@
     "skipLibCheck": true,
     "moduleResolution": "node16"
   },
-  "extends": [],
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }
