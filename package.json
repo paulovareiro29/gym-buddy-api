@@ -5,6 +5,7 @@
   "author": "Paulo Vareiro, Diogo Bernardes, Sergio Barbosa",
   "main": "index.js",
   "scripts": {
+    "start": "ts-node src/index.ts",
     "dev": "nodemon src/index.ts",
     "build": "tsc --project tsconfig.json",
     "lint": "eslint \"**/*.ts\"",
