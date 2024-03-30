@@ -47,7 +47,7 @@ npm run dev
 ### Environments
 
 - We have three environment branches, `develop`, `staging` and `master`.
-- `develop` is where all development happens. Every new feature, bug fix, or enhancement starts in a feature branch based off `develop`. Once completed, it gets merged back into `develop`.
+- `develop` is where all development happens. Every new feature, bug fix, or enhancement starts in a feature branch based off `develop`. Once completed, it gets merged back into `develop` always using `squash and merge`.
 - `staging` mirrors a pre-production environment. Once features are tested and ready in `develop`, they are merged into `staging` for further testing in an environment that closely resembles production.
 - `master` represents the production environment. Code in `master` is always deployed and reflects what's currently live. Merges into `master` happen from the `staging` branch after thorough testing.
 - `hotfixes` are direct fixes to staging and master (if needed) that are made through hotfix branches. These are critical fixes that can't go through the usual process due to urgency. They should be merged back into both develop and staging to ensure consistency.
