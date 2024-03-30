@@ -8,9 +8,11 @@
     "start": "ts-node src/index.ts",
     "dev": "nodemon src/index.ts",
     "build": "tsc --project tsconfig.json",
+    "build:master": "prisma migrate deploy && tsc --project tsconfig.json",
     "lint": "eslint \"**/*.ts\"",
     "lint:fix": "npm run lint -- --fix",
-    "prepare": "husky"
+    "prepare": "husky",
+    "postinstall": "prisma generate"
   },
   "license": "ISC",
   "dependencies": {
