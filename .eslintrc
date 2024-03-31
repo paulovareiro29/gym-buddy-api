@@ -44,7 +44,7 @@
     "array-bracket-spacing": ["error", "never"],
     "array-element-newline": ["error", { "multiline": true }],
     "block-spacing": ["error", "never"],
-    "brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
+    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
     "comma-spacing": ["error", { "before": false, "after": true }],
     "comma-style": ["error", "last"],
     "eol-last": ["error", "always"],
