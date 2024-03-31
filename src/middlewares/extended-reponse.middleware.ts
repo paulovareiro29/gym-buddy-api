@@ -30,7 +30,7 @@ export default (_: Request, res: Response, next: NextFunction) => {
    * (default status 400)
    * Custom Error Response
    */
-  res.error = ({ errors = {}, code = 400, message = 'FAILED' }) =>
+  res.error = ({ errors = {}, code = 400, message = 'ERROR' }) =>
     res.status(code).json({
       code,
       message,

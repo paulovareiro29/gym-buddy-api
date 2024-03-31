@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import UserService from '../../services/user';
 import { CreateUserRequest, FindUserRequest, PatchUserRequest } from './types';
+import { handlePrismaError } from '../../lib/handle-prisma-error';
 
 export default class UserController {
   static async getAll(_: Request, response: Response) {
@@ -35,7 +36,7 @@ export default class UserController {
 
       return response.success({ data: user });
     } catch (err) {
-      return response.error(err);
+      return response.error(handlePrismaError(err));
     }
   }
 
@@ -51,7 +52,7 @@ export default class UserController {
 
       return response.success({ data: user });
     } catch (err) {
-      return response.error(err);
+      return response.error(handlePrismaError(err));
     }
   }
 }
