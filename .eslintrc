@@ -50,15 +50,9 @@
     "eol-last": ["error", "always"],
     "func-call-spacing": ["error", "never"],
     "implicit-arrow-linebreak": 0,
-    "key-spacing": [
-      "error",
-      { "beforeColon": false, "afterColon": true, "mode": "strict" }
-    ],
+    "key-spacing": ["error", { "beforeColon": false, "afterColon": true, "mode": "strict" }],
     "keyword-spacing": ["error", { "before": true, "after": true }],
-    "max-len": [
-      "error",
-      { "code": 120, "tabWidth": 4, "comments": 80, "ignoreUrls": true }
-    ],
+    "max-len": ["error", { "code": 120, "tabWidth": 2, "comments": 80, "ignoreUrls": true }],
     "multiline-comment-style": ["error", "starred-block"],
     "multiline-ternary": ["error", "always"],
     "no-array-constructor": "error",

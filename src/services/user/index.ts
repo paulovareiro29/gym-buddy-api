@@ -14,7 +14,13 @@ export default class UserService {
   }
 
   static async create(data: CreateUser): Promise<User> {
-    return prisma.user.create({ data });
+    return prisma.user.create({
+      data: {
+        ...data,
+        // TODO: Generate register code automatically
+        register_code: '123'
+      }
+    });
   }
 
   static async patch(id: string, data: UpdateUser): Promise<User> {
