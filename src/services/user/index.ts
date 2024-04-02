@@ -1,6 +1,7 @@
 import { PrismaClient, User } from '@prisma/client';
 import { CreateUser, UpdateUser } from './types';
 import { FindQuery } from '../../types/global';
+import { generateRegisterCode } from '../../lib/random/generate-register-code';
 
 const prisma = new PrismaClient();
 
@@ -17,8 +18,7 @@ export default class UserService {
     return prisma.user.create({
       data: {
         ...data,
-        // TODO: Generate register code automatically
-        register_code: '123'
+        register_code: generateRegisterCode()
       }
     });
   }
