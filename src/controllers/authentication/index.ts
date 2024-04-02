@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import { ActivateRequest, LoginRequest } from './types';
 import { handlePrismaError } from '../../lib/handle-prisma-error';
 import UserService from '../../services/user';
+import { compareEncryptedString } from '../../lib/encryption/compare-encrypted-string';
+import { encryptString } from '../../lib/encryption/encrypt-string';
 
 export default class AuthenticationController {
   static async login(request: Request, response: Response) {
@@ -19,8 +21,7 @@ export default class AuthenticationController {
     try {
       const user = await UserService.find({ email: body.email });
 
-      // TODO: Use bcrypt
-      if (!user || body.password !== user.password) {
+      if (!user || !(await compareEncryptedString(body.password, user.password))) {
         return response.badrequest({ message: 'Wrong credentials!' });
       }
 
@@ -67,9 +68,9 @@ export default class AuthenticationController {
         return response.success({ data: user });
       }
 
-      const updated = await UserService.patch(user.id, {
-        // TODO: Use bcrypt
-        password: body.password,
+      // eslint-disable-next-line no-unused-vars
+      const { password, ...updated } = await UserService.patch(user.id, {
+        password: await encryptString(body.password),
         activated: true
       });
 
