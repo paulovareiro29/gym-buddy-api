@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { LoginRequest } from './types';
+import { ActivateRequest, LoginRequest } from './types';
 import { handlePrismaError } from '../../lib/handle-prisma-error';
 import UserService from '../../services/user';
 
@@ -19,7 +19,7 @@ export default class AuthenticationController {
     try {
       const user = await UserService.find({ email: body.email });
 
-      // TODO: Use bcrypt for this
+      // TODO: Use bcrypt
       if (!user || body.password !== user.password) {
         return response.badrequest({ message: 'Wrong credentials!' });
       }
@@ -27,12 +27,53 @@ export default class AuthenticationController {
       // TODO: Generate JWT Token
       const token = '123';
 
+      // eslint-disable-next-line no-unused-vars
+      const { password, ...userWithoutPassword } = user;
+
       return response.success({
         data: {
-          user,
+          user: userWithoutPassword,
           token
         }
       });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
+  }
+
+  static async activate(request: Request, response: Response) {
+    const body = request.body as any as ActivateRequest;
+
+    if (!body.email) {
+      return response.badrequest({ errors: { email: 'Email is required' } });
+    }
+
+    if (!body.password) {
+      return response.badrequest({ errors: { password: 'Password is required' } });
+    }
+
+    if (!body.register_code) {
+      return response.badrequest({ errors: { email: 'Register code is required' } });
+    }
+
+    try {
+      const user = await UserService.find({ email: body.email });
+
+      if (!user || body.register_code !== user.register_code) {
+        return response.badrequest({ message: 'Wrong credentials!' });
+      }
+
+      if (user.activated) {
+        return response.success({ data: user });
+      }
+
+      const updated = await UserService.patch(user.id, {
+        // TODO: Use bcrypt
+        password: body.password,
+        activated: true
+      });
+
+      return response.success({ data: updated });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
