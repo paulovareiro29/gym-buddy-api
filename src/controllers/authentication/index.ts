@@ -4,6 +4,7 @@ import { handlePrismaError } from '../../lib/handle-prisma-error';
 import UserService from '../../services/user';
 import { compareEncryptedString } from '../../lib/encryption/compare-encrypted-string';
 import { encryptString } from '../../lib/encryption/encrypt-string';
+import { generateAccessToken } from '../../lib/jwt/generate-access-token';
 
 export default class AuthenticationController {
   static async login(request: Request, response: Response) {
@@ -25,8 +26,7 @@ export default class AuthenticationController {
         return response.badrequest({ message: 'Wrong credentials!' });
       }
 
-      // TODO: Generate JWT Token
-      const token = '123';
+      const token = generateAccessToken(user.id);
 
       // eslint-disable-next-line no-unused-vars
       const { password, ...userWithoutPassword } = user;
