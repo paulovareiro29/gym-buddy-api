@@ -1,6 +1,7 @@
 import { PrismaClient, User } from '@prisma/client';
 import { CreateUser, UpdateUser } from './types';
 import { FindQuery } from '../../types/global';
+import { generateRegisterCode } from '../../lib/random/generate-register-code';
 
 const prisma = new PrismaClient();
 
@@ -14,7 +15,12 @@ export default class UserService {
   }
 
   static async create(data: CreateUser): Promise<User> {
-    return prisma.user.create({ data });
+    return prisma.user.create({
+      data: {
+        ...data,
+        register_code: generateRegisterCode()
+      }
+    });
   }
 
   static async patch(id: string, data: UpdateUser): Promise<User> {

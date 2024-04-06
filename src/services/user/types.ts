@@ -6,4 +6,6 @@ export interface CreateUser {
 export interface UpdateUser {
   email?: string;
   name?: string;
+  password?: string;
+  activated?: boolean;
 }
