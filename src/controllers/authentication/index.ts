@@ -22,7 +22,15 @@ export default class AuthenticationController {
     try {
       const user = await UserService.find({ email: body.email });
 
-      if (!user || !(await compareEncryptedString(body.password, user.password))) {
+      if (!user) {
+        return response.badrequest({ message: 'Wrong credentials!' });
+      }
+
+      if (!user.activated) {
+        return response.badrequest({ message: 'User is still not activated' });
+      }
+
+      if (!(await compareEncryptedString(body.password, user.password))) {
         return response.badrequest({ message: 'Wrong credentials!' });
       }
 

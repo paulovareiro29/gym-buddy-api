@@ -1,9 +1,13 @@
 import jwt from 'jsonwebtoken';
 
-export const decodeAccessToken = async (token: string) =>
-  new Promise((resolve, reject) =>
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-      if (err) reject(err);
+interface TokenInformation {
+  id: string;
+}
+
+export const decodeAccessToken = async (token: string): Promise<TokenInformation | Error> =>
+  new Promise((resolve) =>
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded: TokenInformation) => {
+      if (err) resolve(new Error(err.message));
       resolve(decoded);
     })
   );
