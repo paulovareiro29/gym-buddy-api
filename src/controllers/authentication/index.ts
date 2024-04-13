@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { ActivateRequest, LoginRequest } from './types';
+import { ActivateRequest, LoginRequest, RegisterRequest } from './types';
 import { handlePrismaError } from '../../lib/handle-prisma-error';
-import UserService from '../../services/user';
-import { compareEncryptedString } from '../../lib/encryption/compare-encrypted-string';
 import { encryptString } from '../../lib/encryption/encrypt-string';
 import { generateAccessToken } from '../../lib/jwt/generate-access-token';
+import AuthenticationService from '../../services/authentication';
+import UserService from '../../services/user';
 
 export default class AuthenticationController {
   static async login(request: Request, response: Response) {
@@ -15,36 +15,52 @@ export default class AuthenticationController {
     }
 
     if (!body.password) {
-      // eslint-disable-next-line prettier/prettier
       return response.badrequest({ errors: { password: 'Password is required' } });
     }
 
     try {
+      const valid = await AuthenticationService.validateCredentials(body.email, body.password);
+      if (!valid) return response.badrequest({ message: 'Wrong credentials' });
+
       const user = await UserService.find({ email: body.email });
-
-      if (!user) {
-        return response.badrequest({ message: 'Wrong credentials!' });
-      }
-
-      if (!user.activated) {
-        return response.badrequest({ message: 'User is still not activated' });
-      }
-
-      if (!(await compareEncryptedString(body.password, user.password))) {
-        return response.badrequest({ message: 'Wrong credentials!' });
-      }
-
       const token = generateAccessToken(user.id);
-
-      // eslint-disable-next-line no-unused-vars
-      const { password, ...userWithoutPassword } = user;
 
       return response.success({
         data: {
-          user: userWithoutPassword,
+          user,
           token
         }
       });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
+  }
+
+  static async register(request: Request, response: Response) {
+    const body = request.body as any as RegisterRequest;
+
+    if (!body.email) {
+      return response.badrequest({ errors: { email: 'Email is required' } });
+    }
+
+    if (!body.name) {
+      return response.badrequest({ errors: { name: 'Name is required' } });
+    }
+
+    try {
+      const user = await UserService.find({ email: body.email });
+      if (user) return response.badrequest({ errors: { email: 'Email already in use' } });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
+
+    try {
+      const user = await UserService.create({
+        email: body.email!,
+        name: body.name!
+      });
+
+      return response.success({ data: user });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -68,16 +84,19 @@ export default class AuthenticationController {
     try {
       const user = await UserService.find({ email: body.email });
 
-      if (!user || body.register_code !== user.register_code) {
-        return response.badrequest({ message: 'Wrong credentials!' });
+      if (!user) {
+        return response.badrequest({ message: 'User does not exist' });
+      }
+
+      if (body.register_code !== user.register_code) {
+        return response.badrequest({ message: 'Register code is invalid' });
       }
 
       if (user.activated) {
         return response.success({ data: user });
       }
 
-      // eslint-disable-next-line no-unused-vars
-      const { password, ...updated } = await UserService.patch(user.id, {
+      const updated = await UserService.patch(user.id, {
         password: await encryptString(body.password),
         activated: true
       });
