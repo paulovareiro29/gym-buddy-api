@@ -1,3 +1,12 @@
+export interface NormalizedUser {
+  id: string;
+  email: string;
+  name: string;
+  address: string;
+  register_code: string;
+  activated: boolean;
+}
+
 export interface CreateUser {
   email: string;
   name?: string;

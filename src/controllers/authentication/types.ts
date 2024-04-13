@@ -3,6 +3,11 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface RegisterRequest {
+  name: string;
+  email: string;
+}
+
 export interface ActivateRequest {
   email: string;
   password: string;
