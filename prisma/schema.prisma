@@ -17,11 +17,28 @@ model User {
   activated     Boolean  @default(false)
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
+  metric        Metric[]
+  creatorMetric Metric[] @relation("CreatorMetric")
 }
 
 model MetricType {
   id         String   @id @default(uuid())
-  name        String
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  metric     Metric[]
+}
+
+model Metric {
+  id         String     @id @default(uuid())
+  user_id    String
+  creator_id String
+  type_id    String
+  value      String
+  date       DateTime
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  user       User       @relation(fields: [user_id], references: [id])
+  creator    User       @relation("CreatorMetric", fields: [creator_id], references: [id])
+  type       MetricType @relation(fields: [type_id], references: [id])
 }
