@@ -8,20 +8,37 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(uuid())
-  email         String   @unique
-  password      String?
-  name          String?
-  address       String?
-  register_code String
-  activated     Boolean  @default(false)
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
+  id                String   @id @default(uuid())
+  email             String   @unique
+  password          String?
+  name              String?
+  address           String?
+  register_code     String
+  activated         Boolean  @default(false)
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  userMetric        UserMetric[]
+  creatorUserMetric UserMetric[] @relation("CreatorUserMetric")
 }
 
 model MetricType {
-  id         String   @id @default(uuid())
+  id          String   @id @default(uuid())
   name        String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  userMetric  UserMetric[]
+}
+
+model UserMetric {
+  id          String   @id @default(uuid())
+  user        User     @relation(fields: [user_id], references: [id])
+  user_id     String   
+  creator     User     @relation("CreatorUserMetric", fields: [creator_id], references: [id])
+  creator_id  String  
+  type        MetricType @relation(fields: [type_id], references: [id])
+  type_id     String
+  value       String 
+  date        DateTime
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 }
