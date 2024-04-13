@@ -1,35 +1,36 @@
 import { Request, Response } from 'express';
-import UserMetricService from '../../services/userMetric';
-import { CreateUserMetricRequest, FindUserMetricRequest, PatchUserMetricRequest } from './types';
+import MetricService from '../../services/metric';
+import { CreateMetricRequest, FindMetricRequest, PatchMetricRequest } from './types';
 import { handlePrismaError } from '../../lib/handle-prisma-error';
 import UserService from '../../services/user';
 import MetricTypesService from '../../services/metricTypes';
 
-export default class UserMetricController {
+export default class MetricController {
   static async getAll(_: Request, response: Response) {
-    const userMetric = await UserMetricService.getAll();
-    return response.success({ data: userMetric });
+    const metric = await MetricService.getAll();
+    return response.success({ data: metric });
   }
 
   static async find(request: Request, response: Response) {
-    const { id } = request.params as any as FindUserMetricRequest;
+    const { id } = request.params as any as FindMetricRequest;
 
-    const userMetric = await UserMetricService.find({ id });
+    const metric = await MetricService.find({ id });
 
-    if (!userMetric) {
+    if (!metric) {
       return response.notfound();
     }
 
-    return response.success({ data: userMetric });
+    return response.success({ data: metric });
   }
 
   static async create(request: Request, response: Response) {
-    const body = request.body as any as CreateUserMetricRequest;
+    const body = request.body as any as CreateMetricRequest;
 
     try {
       const user = await UserService.find({ id: body.user_id });
       const creator = await UserService.find({ id: body.creator_id });
       const metricType = await MetricTypesService.find({ id: body.type_id });
+
       if (!user) {
         return response.badrequest({ errors: { user_id: 'Invalid user ID provided' } });
       }
@@ -57,7 +58,7 @@ export default class UserMetricController {
     }
 
     try {
-      const userMetric = await UserMetricService.create({
+      const metric = await MetricService.create({
         user_id: body.user_id!,
         creator_id: body.creator_id!,
         type_id: body.type_id!,
@@ -65,19 +66,19 @@ export default class UserMetricController {
         date: body.date!
       });
 
-      return response.success({ data: userMetric });
+      return response.success({ data: metric });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
   }
 
   static async patch(request: Request, response: Response) {
-    const { id } = request.params as any as FindUserMetricRequest;
-    const body = request.body as any as PatchUserMetricRequest;
+    const { id } = request.params as any as FindMetricRequest;
+    const body = request.body as any as PatchMetricRequest;
 
     // TODO: Verify if the logged user is an administrator or a personal trainer
     try {
-      const userMetric = await UserMetricService.patch(id, {
+      const metric = await MetricService.patch(id, {
         user_id: body.user_id!,
         creator_id: body.creator_id!,
         type_id: body.type_id!,
@@ -85,7 +86,7 @@ export default class UserMetricController {
         date: body.date!
       });
 
-      return response.success({ data: userMetric });
+      return response.success({ data: metric });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }

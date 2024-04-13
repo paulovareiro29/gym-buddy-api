@@ -1,8 +1,8 @@
-export interface FindUserMetricRequest {
+export interface FindMetricRequest {
   id: string;
 }
 
-export interface CreateUserMetricRequest {
+export interface CreateMetricRequest {
   user_id: string;
   creator_id: string;
   type_id: string;
@@ -10,7 +10,7 @@ export interface CreateUserMetricRequest {
   date: Date;
 }
 
-export interface PatchUserMetricRequest {
+export interface PatchMetricRequest {
   user_id: string;
   creator_id: string;
   type_id: string;
