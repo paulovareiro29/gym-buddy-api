@@ -27,9 +27,9 @@ export default async () => {
   const roles = await initializeRoles();
 
   const root = {
-    email: 'gymbuddy@ipvc.pt',
-    name: 'Gym Buddy',
-    password: await encryptString('gymbuddy'),
+    email: process.env.ROOT_EMAIL,
+    name: process.env.ROOT_NAME,
+    password: await encryptString(process.env.ROOT_PASSWORD),
     role_id: roles.admin.id,
     activated: true,
     register_code: ''
