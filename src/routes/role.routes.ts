@@ -5,7 +5,17 @@ import RoleController from '../controllers/role';
 const router = Router();
 
 router
-  .get('/', AuthenticationMiddleware.authenticated, RoleController.getAll)
-  .get('/:id', AuthenticationMiddleware.authenticated, RoleController.find);
+  .get(
+    '/',
+    AuthenticationMiddleware.authenticated,
+    AuthenticationMiddleware.authorized(['admin']),
+    RoleController.getAll
+  )
+  .get(
+    '/:id',
+    AuthenticationMiddleware.authenticated,
+    AuthenticationMiddleware.authorized(['admin']),
+    RoleController.find
+  );
 
 export default router;

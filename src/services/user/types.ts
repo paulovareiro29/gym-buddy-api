@@ -1,7 +1,10 @@
+import { NormalizedRole } from '../role/types';
+
 export interface NormalizedUser {
   id: string;
   email: string;
   name: string;
+  role: NormalizedRole;
   address: string;
   register_code: string;
   activated: boolean;
