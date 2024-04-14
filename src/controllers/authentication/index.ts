@@ -5,6 +5,7 @@ import { encryptString } from '../../lib/encryption/encrypt-string';
 import { generateAccessToken } from '../../lib/jwt/generate-access-token';
 import AuthenticationService from '../../services/authentication';
 import UserService from '../../services/user';
+import RoleService from '../../services/role';
 
 export default class AuthenticationController {
   static async login(request: Request, response: Response) {
@@ -47,6 +48,12 @@ export default class AuthenticationController {
       return response.badrequest({ errors: { name: 'Name is required' } });
     }
 
+    if (!body.role_id) {
+      const defaultRole = await RoleService.find({ name: 'default' });
+      if (!defaultRole) return response.internal({});
+      body.role_id = defaultRole.id;
+    }
+
     try {
       const user = await UserService.find({ email: body.email });
       if (user) return response.badrequest({ errors: { email: 'Email already in use' } });
@@ -57,7 +64,8 @@ export default class AuthenticationController {
     try {
       const user = await UserService.create({
         email: body.email!,
-        name: body.name!
+        name: body.name!,
+        role_id: body.role_id!
       });
 
       return response.success({ data: user });

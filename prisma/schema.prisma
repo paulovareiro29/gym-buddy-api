@@ -7,9 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Role {
+  id    String @id @default(uuid())
+  name  String @unique
+  users User[]
+}
+
 model User {
   id            String   @id @default(uuid())
   email         String   @unique
+  role_id       String
   password      String?
   name          String?
   address       String?
@@ -17,6 +24,7 @@ model User {
   activated     Boolean  @default(false)
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
+  role          Role?    @relation(fields: [role_id], references: [id])
   metric        Metric[]
   creatorMetric Metric[] @relation("CreatorMetric")
 }

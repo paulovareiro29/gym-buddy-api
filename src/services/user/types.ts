@@ -8,6 +8,7 @@ export interface NormalizedUser {
 }
 
 export interface CreateUser {
+  role_id: string;
   email: string;
   name?: string;
 }
