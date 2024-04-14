@@ -1,12 +1,12 @@
 import Router from 'express';
 import UserController from '../controllers/user';
+import AuthenticationMiddleware from '../middlewares/authentication.middleware';
 
 const router = Router();
 
 router
-  .get('/', UserController.getAll)
-  .get('/:id', UserController.find)
-  .post('/', UserController.create)
-  .put('/:id', UserController.patch);
+  .get('/', AuthenticationMiddleware.authenticated, UserController.getAll)
+  .get('/:id', AuthenticationMiddleware.authenticated, UserController.find)
+  .put('/:id', AuthenticationMiddleware.authenticated, UserController.patch);
 
 export default router;

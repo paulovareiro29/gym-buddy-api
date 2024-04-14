@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import UserService from '../../services/user';
-import { CreateUserRequest, FindUserRequest, PatchUserRequest } from './types';
+import { FindUserRequest, PatchUserRequest } from './types';
 import { handlePrismaError } from '../../lib/handle-prisma-error';
 
 export default class UserController {
@@ -19,25 +19,6 @@ export default class UserController {
     }
 
     return response.success({ data: user });
-  }
-
-  static async create(request: Request, response: Response) {
-    const body = request.body as any as CreateUserRequest;
-
-    if (!body.email) {
-      return response.badrequest({ errors: { email: 'Email is required' } });
-    }
-
-    try {
-      const user = await UserService.create({
-        email: body.email!,
-        name: body.name
-      });
-
-      return response.success({ data: user });
-    } catch (err) {
-      return response.error(handlePrismaError(err));
-    }
   }
 
   static async patch(request: Request, response: Response) {

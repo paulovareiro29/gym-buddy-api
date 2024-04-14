@@ -1,4 +1,17 @@
+import { NormalizedRole } from '../role/types';
+
+export interface NormalizedUser {
+  id: string;
+  email: string;
+  name: string;
+  role: NormalizedRole;
+  address: string;
+  register_code: string;
+  activated: boolean;
+}
+
 export interface CreateUser {
+  role_id: string;
   email: string;
   name?: string;
 }
@@ -6,4 +19,6 @@ export interface CreateUser {
 export interface UpdateUser {
   email?: string;
   name?: string;
+  password?: string;
+  activated?: boolean;
 }
