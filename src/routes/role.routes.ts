@@ -1,23 +1,21 @@
 import Router from 'express';
-import MetricTypesController from '../controllers/metricTypes';
 import AuthenticationMiddleware from '../middlewares/authentication.middleware';
+import RoleController from '../controllers/role';
 
 const router = Router();
 
 router
-  .get('/', AuthenticationMiddleware.authenticated, MetricTypesController.getAll)
-  .get('/:id', AuthenticationMiddleware.authenticated, MetricTypesController.find)
-  .post(
+  .get(
     '/',
     AuthenticationMiddleware.authenticated,
     AuthenticationMiddleware.authorized(['admin']),
-    MetricTypesController.create
+    RoleController.getAll
   )
-  .put(
+  .get(
     '/:id',
     AuthenticationMiddleware.authenticated,
     AuthenticationMiddleware.authorized(['admin']),
-    MetricTypesController.patch
+    RoleController.find
   );
 
 export default router;

@@ -1,6 +1,12 @@
 export default {
   id: true,
   email: true,
+  role: {
+    select: {
+      id: true,
+      name: true
+    }
+  },
   name: true,
   address: true,
   register_code: true,
