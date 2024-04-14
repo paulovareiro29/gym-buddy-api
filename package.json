@@ -9,7 +9,7 @@
     "dev": "nodemon src/index.ts",
     "vercel-build": "sh scripts/deploy.sh",
     "build": "tsc --project tsconfig.json",
-    "build:master": "prisma migrate reset --force && tsc --project tsconfig.json",
+    "build:master": "prisma migrate deploy && tsc --project tsconfig.json",
     "lint": "eslint \"**/*.ts\"",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "husky",
