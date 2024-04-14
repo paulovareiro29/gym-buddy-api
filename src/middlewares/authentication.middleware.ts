@@ -4,15 +4,6 @@ import { decodeAccessToken } from '../lib/jwt/decode-access-token';
 import { NormalizedUser } from '../services/user/types';
 import UserService from '../services/user';
 
-declare module 'express' {
-  // eslint-disable-next-line no-shadow
-  export interface Response {
-    locals: {
-      user: NormalizedUser;
-    };
-  }
-}
-
 export default class AuthenticationMiddleware {
   static async authenticated(request: Request, response: Response, next: NextFunction) {
     const token = request.headers.authorization?.split(' ').pop();
@@ -41,7 +32,7 @@ export default class AuthenticationMiddleware {
 
   static authorized(roles: RoleName[]) {
     return async (_: Request, response: Response, next: NextFunction) => {
-      const { user } = response.locals;
+      const user = response.locals.user as NormalizedUser;
 
       roles.push('admin');
       if (!roles.includes(user.role.name as RoleName)) {
