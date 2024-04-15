@@ -5,6 +5,7 @@ import roles from './role.routes';
 import users from './user.routes';
 import metricTypes from './metricsType.routes';
 import metrics from './metric.routes';
+import trainingPlan from './trainingPlan.routes';
 
 const router = Router();
 
@@ -14,5 +15,5 @@ router.use('/roles', roles);
 router.use('/users', users);
 router.use('/metricTypes', metricTypes);
 router.use('/metrics', metrics);
-
+router.use('/trainingPlan', trainingPlan);
 export default router;

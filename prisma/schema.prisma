@@ -27,6 +27,7 @@ model User {
   role          Role?    @relation(fields: [role_id], references: [id])
   metric        Metric[]
   creatorMetric Metric[] @relation("CreatorMetric")
+  trainingCreator TrainingPlan[] @relation("TrainingCreator")
 }
 
 model MetricType {
@@ -50,3 +51,13 @@ model Metric {
   creator    User       @relation("CreatorMetric", fields: [creator_id], references: [id])
   type       MetricType @relation(fields: [type_id], references: [id])
 }
+
+  model TrainingPlan {
+    id         String   @id @default(uuid())
+    name       String
+    creator_id String
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    creator    User   @relation("TrainingCreator",fields: [creator_id], references: [id])
+  }
+
