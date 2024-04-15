@@ -27,7 +27,7 @@ model User {
   role          Role?    @relation(fields: [role_id], references: [id])
   metric        Metric[]
   creatorMetric Metric[] @relation("CreatorMetric")
-  trainingCreator TrainingPlan[] @relation("TrainingCreator")
+  trainingPlanCreator TrainingPlan[] @relation("TrainingCreator")
 }
 
 model MetricType {

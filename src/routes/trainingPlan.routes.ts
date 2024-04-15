@@ -10,13 +10,13 @@ router
   .post(
     '/',
     AuthenticationMiddleware.authenticated,
-    AuthenticationMiddleware.authorized(['admin']),
+    AuthenticationMiddleware.authorized(['trainer']),
     TrainingPlanController.create
   )
   .put(
     '/:id',
     AuthenticationMiddleware.authenticated,
-    AuthenticationMiddleware.authorized(['admin']),
+    AuthenticationMiddleware.authorized(['trainer']),
     TrainingPlanController.patch
   );
 

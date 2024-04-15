@@ -1,13 +1,11 @@
 import { Request, Response } from 'express';
 import TrainingPlanService from '../../services/trainingPlan';
-import UserService from '../../services/user';
 import {
   CreateTrainingPlanRequest,
   FindTrainingPlanRequest,
   PatchTrainingPlanRequest
 } from './types';
 import { handlePrismaError } from '../../lib/handle-prisma-error';
-import { decodeAccessToken } from '../../lib/jwt/decode-access-token';
 
 export default class TrainingPlanController {
   static async getAll(_: Request, response: Response) {
@@ -29,14 +27,13 @@ export default class TrainingPlanController {
 
   static async create(request: Request, response: Response) {
     const body = request.body as CreateTrainingPlanRequest;
+    const loggedUser = response.locals.user;
+
+    if (!loggedUser || loggedUser.role.name !== 'trainer') {
+      return response.forbidden({ message: 'User is not authorized to create training plans' });
+    }
 
     try {
-      const loggedUser = await TrainingPlanController.authorizedUser(request);
-
-      if (!loggedUser) {
-        return response.forbidden({ message: 'User is not authorized to create training plans' });
-      }
-
       if (!body.name) {
         return response.badrequest({ errors: { name: 'Name is required' } });
       }
@@ -55,14 +52,13 @@ export default class TrainingPlanController {
   static async patch(request: Request, response: Response) {
     const { id } = request.params as any as FindTrainingPlanRequest;
     const body = request.body as PatchTrainingPlanRequest;
+    const loggedUser = response.locals.user;
+
+    if (!loggedUser || loggedUser.role.name !== 'trainer') {
+      return response.forbidden({ message: 'User is not authorized to create training plans' });
+    }
 
     try {
-      const loggedUser = await TrainingPlanController.authorizedUser(request);
-
-      if (!loggedUser) {
-        return response.forbidden({ message: 'User is not authorized to create training plans' });
-      }
-
       if (!body.name) {
         return response.badrequest({ errors: { name: 'Name is required' } });
       }
@@ -73,22 +69,5 @@ export default class TrainingPlanController {
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
-  }
-
-  static async authorizedUser(request: Request) {
-    const token = request.headers.authorization?.split(' ')[1];
-    const decodedToken = await decodeAccessToken(token);
-
-    if (!decodedToken || !('id' in decodedToken)) {
-      return null;
-    }
-
-    const loggedUser = await UserService.find({ id: decodedToken.id });
-
-    if (!loggedUser || loggedUser.role.name !== 'trainer') {
-      return null;
-    }
-
-    return loggedUser;
   }
 }
