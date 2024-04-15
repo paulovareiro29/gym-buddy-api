@@ -15,5 +15,5 @@ router.use('/roles', roles);
 router.use('/users', users);
 router.use('/metricTypes', metricTypes);
 router.use('/metrics', metrics);
-router.use('/trainingPlan', trainingPlan);
+router.use('/plans', trainingPlan);
 export default router;
