@@ -4,12 +4,12 @@ const user = {
   name: true
 };
 const plan = {
+  id: true,
   name: true,
   creator: { select: user }
 };
 
 export default {
-  id: true,
   user: { select: user },
   plan: { select: plan },
   start_date: true,

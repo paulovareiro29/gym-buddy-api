@@ -29,10 +29,6 @@ export default class TrainingPlanController {
     const body = request.body as CreateTrainingPlanRequest;
     const loggedUser = response.locals.user;
 
-    if (!loggedUser || loggedUser.role.name !== 'trainer') {
-      return response.forbidden({ message: 'User is not authorized to create training plans' });
-    }
-
     try {
       if (!body.name) {
         return response.badrequest({ errors: { name: 'Name is required' } });
@@ -52,11 +48,6 @@ export default class TrainingPlanController {
   static async patch(request: Request, response: Response) {
     const { id } = request.params as any as FindTrainingPlanRequest;
     const body = request.body as PatchTrainingPlanRequest;
-    const loggedUser = response.locals.user;
-
-    if (!loggedUser || loggedUser.role.name !== 'trainer') {
-      return response.forbidden({ message: 'User is not authorized to create training plans' });
-    }
 
     try {
       if (!body.name) {

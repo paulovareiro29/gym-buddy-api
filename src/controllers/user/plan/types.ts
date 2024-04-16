@@ -1,5 +1,8 @@
-export interface FindUserPlanRequest {
-  id: string;
+export interface UserPlanRequest {
+  user_id: string;
+}
+export interface FindUserPlanRequest extends UserPlanRequest {
+  plan_id: string;
 }
 
 export interface CreateUserPlanRequest {
@@ -10,8 +13,6 @@ export interface CreateUserPlanRequest {
 }
 
 export interface PatchUserPlanRequest {
-  user_id: string;
-  plan_id: string;
   start_date: Date;
   end_date: Date;
 }

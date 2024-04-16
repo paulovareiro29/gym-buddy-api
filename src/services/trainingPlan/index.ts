@@ -5,7 +5,7 @@ import schema from './schema';
 
 const prisma = new PrismaClient();
 
-export default class MetricService {
+export default class TrainingPlanService {
   static async getAll(): Promise<NormalizedTrainingPlan[]> {
     return prisma.trainingPlan.findMany({ select: schema });
   }

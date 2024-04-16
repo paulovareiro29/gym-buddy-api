@@ -64,7 +64,6 @@ model TrainingPlan {
 }
 
 model UserPlan {
-  id         String   @id @default(uuid())
   user_id    String
   plan_id    String
   start_date DateTime
@@ -73,4 +72,6 @@ model UserPlan {
   updated_at DateTime @updatedAt
   user       User   @relation("UserPlan",fields: [user_id], references: [id])
   plan       TrainingPlan @relation("TrainingPlan",fields: [plan_id], references: [id])
+
+  @@id([user_id, plan_id])
 }

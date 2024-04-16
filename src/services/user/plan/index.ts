@@ -1,6 +1,6 @@
 import { PrismaClient, UserPlan } from '@prisma/client';
 import { NormalizedUserPlan, CreateUserPlan, UpdateUserPlan } from './types';
-import { FindQuery } from '../../types/global';
+import { FindQuery } from '../../../types/global';
 import schema from './schema';
 
 const prisma = new PrismaClient();
@@ -24,9 +24,18 @@ export default class UserPlanService {
     });
   }
 
-  static async patch(id: string, data: UpdateUserPlan): Promise<NormalizedUserPlan> {
+  static async patch(
+    user_id: string,
+    plan_id: string,
+    data: UpdateUserPlan
+  ): Promise<NormalizedUserPlan> {
     return prisma.userPlan.update({
-      where: { id },
+      where: {
+        user_id_plan_id: {
+          user_id,
+          plan_id
+        }
+      },
       data,
       select: schema
     });

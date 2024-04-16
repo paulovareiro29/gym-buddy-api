@@ -9,7 +9,6 @@ interface SimplifiedPlan {
 }
 
 export interface NormalizedUserPlan {
-  id: string;
   user: SimplifiedUser;
   plan: SimplifiedPlan;
   start_date: Date;
@@ -24,8 +23,6 @@ export interface CreateUserPlan {
 }
 
 export interface UpdateUserPlan {
-  user_id: string;
-  plan_id: string;
   start_date: Date;
   end_date: Date;
 }

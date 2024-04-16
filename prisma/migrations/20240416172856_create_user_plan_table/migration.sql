@@ -1,6 +1,5 @@
 -- CreateTable
 CREATE TABLE "UserPlan" (
-    "id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
     "plan_id" TEXT NOT NULL,
     "start_date" TIMESTAMP(3) NOT NULL,
@@ -8,7 +7,7 @@ CREATE TABLE "UserPlan" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "UserPlan_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "UserPlan_pkey" PRIMARY KEY ("user_id","plan_id")
 );
 
 -- AddForeignKey
