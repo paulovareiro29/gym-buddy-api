@@ -82,3 +82,11 @@ model Category {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
+
+model Machine {
+  id         String @id @default(uuid())
+  name       String
+  photo      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
