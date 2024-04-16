@@ -28,6 +28,7 @@ model User {
   metric        Metric[]
   creatorMetric Metric[] @relation("CreatorMetric")
   trainingPlanCreator TrainingPlan[] @relation("TrainingCreator")
+  userPlan      UserPlan[] @relation("UserPlan")
 }
 
 model MetricType {
@@ -52,12 +53,25 @@ model Metric {
   type       MetricType @relation(fields: [type_id], references: [id])
 }
 
-  model TrainingPlan {
-    id         String   @id @default(uuid())
-    name       String
-    creator_id String
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
-    creator    User   @relation("TrainingCreator",fields: [creator_id], references: [id])
-  }
+model TrainingPlan {
+  id         String   @id @default(uuid())
+  name       String
+  creator_id String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  creator    User   @relation("TrainingCreator",fields: [creator_id], references: [id])
+  userPlan   UserPlan[] @relation("TrainingPlan")
+}
 
+model UserPlan {
+  user_id    String
+  plan_id    String
+  start_date DateTime
+  end_date   DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user       User   @relation("UserPlan",fields: [user_id], references: [id])
+  plan       TrainingPlan @relation("TrainingPlan",fields: [plan_id], references: [id])
+
+  @@id([user_id, plan_id])
+}
