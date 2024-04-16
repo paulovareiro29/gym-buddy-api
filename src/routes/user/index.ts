@@ -5,10 +5,9 @@ import UserPlan from './plan.routes';
 const router = Router();
 
 router
+  .use('/', UserPlan)
   .get('/', AuthenticationMiddleware.authenticated, UserController.getAll)
   .get('/:id', AuthenticationMiddleware.authenticated, UserController.find)
-  .put('/:id', AuthenticationMiddleware.authenticated, UserController.patch)
-
-  .use('/', UserPlan);
+  .put('/:id', AuthenticationMiddleware.authenticated, UserController.patch);
 
 export default router;
