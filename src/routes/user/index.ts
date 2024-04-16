@@ -1,11 +1,11 @@
 import Router from 'express';
 import UserController from '../../controllers/user';
 import AuthenticationMiddleware from '../../middlewares/authentication.middleware';
-import UserPlan from './plan.routes';
+import plans from './plan.routes';
 const router = Router();
 
 router
-  .use('/', UserPlan)
+  .use('/', plans)
   .get('/', AuthenticationMiddleware.authenticated, UserController.getAll)
   .get('/:id', AuthenticationMiddleware.authenticated, UserController.find)
   .put('/:id', AuthenticationMiddleware.authenticated, UserController.patch);
