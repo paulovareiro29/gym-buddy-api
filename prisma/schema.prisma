@@ -75,3 +75,10 @@ model UserPlan {
 
   @@id([user_id, plan_id])
 }
+
+model Category { 
+  id         String   @id @default(uuid())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
