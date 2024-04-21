@@ -2,11 +2,16 @@ import { Request, Response } from 'express';
 import MachineService from '../../services/machine';
 import { CreateMachineRequest, FindMachineRequest, PatchMachineRequest } from './types';
 import { handlePrismaError } from '../../lib/handle-prisma-error';
+import CategoriesService from '../../services/categories';
 
 export default class MachineController {
   static async getAll(_: Request, response: Response) {
-    const categories = await MachineService.getAll();
-    return response.success({ data: categories });
+    try {
+      const machines = await MachineService.getAll();
+      return response.success({ data: machines });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
   }
 
   static async find(request: Request, response: Response) {
@@ -22,15 +27,22 @@ export default class MachineController {
   }
 
   static async create(request: Request, response: Response) {
-    const body = request.body as any as CreateMachineRequest;
+    const body = request.body as CreateMachineRequest;
 
     if (!body.name) {
-      return response.badrequest({ errors: { name: 'Name is required' } });
+      return response.status(400).json({ error: 'Name is required' });
     }
 
     try {
+      const category = await CategoriesService.find({ id: body.categories[0] });
+
+      if (!category) {
+        return response.badrequest({ errors: { category: 'Invalid Category ID provided' } });
+      }
+
       const machine = await MachineService.create({
-        name: body.name!,
+        name: body.name,
+        categories: body.categories,
         photo: body.photo
       });
 
@@ -47,6 +59,7 @@ export default class MachineController {
     try {
       const machine = await MachineService.patch(id, {
         name: body.name,
+        categories: body.categories,
         photo: body.photo
       });
 

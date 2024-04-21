@@ -3,7 +3,7 @@ import CategoryService from '../../services/categories';
 import { CreateCategoryRequest, FindCategoryRequest, PatchCategoryRequest } from './types';
 import { handlePrismaError } from '../../lib/handle-prisma-error';
 
-export default class MetricTypesController {
+export default class CategoryController {
   static async getAll(_: Request, response: Response) {
     const categories = await CategoryService.getAll();
     return response.success({ data: categories });

@@ -81,6 +81,7 @@ model Category {
   name       String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  machines   Machine[]
 }
 
 model Machine {
@@ -89,4 +90,6 @@ model Machine {
   photo      String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  categories Category[]
 }
+
