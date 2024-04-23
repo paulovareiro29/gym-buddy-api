@@ -33,7 +33,7 @@ export default class MachineController {
       return response.badrequest({ errors: { name: 'Name is required' } });
     }
 
-    if (!body.categories || body.categories.length === 0) {
+    if (!body.categories?.length) {
       return response.badrequest({ errors: { name: 'Categories are required' } });
     }
 
