@@ -34,9 +34,12 @@ export default class MachineController {
     }
 
     try {
-      const category = await CategoriesService.find({ id: body.categories[0] });
+      const categories = await Promise.all(
+        body.categories.map(async (categoryId) => CategoriesService.find({ id: categoryId }))
+      );
+      const invalidCategories = categories.filter((category) => !category);
 
-      if (!category) {
+      if (invalidCategories.length > 0) {
         return response.badrequest({ errors: { category: 'Invalid Category ID provided' } });
       }
 
@@ -56,7 +59,20 @@ export default class MachineController {
     const { id } = request.params as any as FindMachineRequest;
     const body = request.body as any as PatchMachineRequest;
 
+    if (!body.name) {
+      return response.status(400).json({ error: 'Name is required' });
+    }
+
     try {
+      const categories = await Promise.all(
+        body.categories.map(async (categoryId) => CategoriesService.find({ id: categoryId }))
+      );
+      const invalidCategories = categories.filter((category) => !category);
+
+      if (invalidCategories.length > 0) {
+        return response.badrequest({ errors: { category: 'Invalid Category ID provided' } });
+      }
+
       const machine = await MachineService.patch(id, {
         name: body.name,
         categories: body.categories,

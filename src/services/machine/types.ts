@@ -12,12 +12,12 @@ export interface NormalizedMachine {
 
 export interface CreateMachine {
   name?: string;
-  photo: string;
+  photo?: string;
   categories: string[];
 }
 
 export interface UpdateMachine {
   name?: string;
-  photo: string;
+  photo?: string;
   categories?: string[];
 }
