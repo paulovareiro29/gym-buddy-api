@@ -81,4 +81,15 @@ model Category {
   name       String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  machines   Machine[]
 }
+
+model Machine {
+  id         String @id @default(uuid())
+  name       String
+  photo      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  categories Category[]
+}
+
