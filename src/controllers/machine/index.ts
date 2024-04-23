@@ -30,7 +30,11 @@ export default class MachineController {
     const body = request.body as CreateMachineRequest;
 
     if (!body.name) {
-      return response.status(400).json({ error: 'Name is required' });
+      return response.badrequest({ errors: { name: 'Name is required' } });
+    }
+
+    if (!body.categories || body.categories.length === 0) {
+      return response.badrequest({ errors: { name: 'Categories are required' } });
     }
 
     try {
@@ -60,7 +64,11 @@ export default class MachineController {
     const body = request.body as any as PatchMachineRequest;
 
     if (!body.name) {
-      return response.status(400).json({ error: 'Name is required' });
+      return response.badrequest({ errors: { name: 'Name is required' } });
+    }
+
+    if (!body.categories || body.categories.length === 0) {
+      return response.badrequest({ errors: { name: 'Categories are required' } });
     }
 
     try {
