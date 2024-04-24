@@ -82,6 +82,7 @@ model Category {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   machines   Machine[]
+  exercises  Exercise[]
 }
 
 model Machine {
@@ -91,5 +92,16 @@ model Machine {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   categories Category[]
+  exercise   Exercise[] @relation("ExerciseMachine")
 }
 
+model Exercise{ 
+  id         String @id @default(uuid())
+  name       String
+  photo      String
+  machine_id String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  categories Category[]
+  machine    Machine  @relation("ExerciseMachine", fields: [machine_id], references: [id])
+}
