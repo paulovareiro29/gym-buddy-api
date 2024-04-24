@@ -7,6 +7,7 @@ import metricTypes from './metricsType.routes';
 import metrics from './metric.routes';
 import trainingPlan from './trainingPlan.routes';
 import contractCategories from './contractCategory.routes';
+import contracts from './contract.routes';
 
 const router = Router();
 
@@ -18,4 +19,5 @@ router.use('/metricTypes', metricTypes);
 router.use('/metrics', metrics);
 router.use('/plans', trainingPlan);
 router.use('/contractCategories', contractCategories);
+router.use('/contracts', contracts);
 export default router;
