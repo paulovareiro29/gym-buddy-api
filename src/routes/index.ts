@@ -8,6 +8,7 @@ import metrics from './metric.routes';
 import trainingPlan from './trainingPlan.routes';
 import category from './category.routes';
 import machine from './machine.routes';
+import exercise from './exercise.routes';
 
 const router = Router();
 
@@ -20,4 +21,6 @@ router.use('/metrics', metrics);
 router.use('/plans', trainingPlan);
 router.use('/categories', category);
 router.use('/machines', machine);
+router.use('/exercises', exercise);
+
 export default router;
