@@ -16,7 +16,7 @@ export default class ContractCategoryController {
   static async find(request: Request, response: Response) {
     const { id } = request.params as any as FindContractCategoriesRequest;
 
-    const contractCategory = await ContractCategoryService.find(id);
+    const contractCategory = await ContractCategoryService.find({ id });
 
     if (!contractCategory) {
       return response.notfound();

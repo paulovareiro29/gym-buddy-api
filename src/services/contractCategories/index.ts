@@ -8,8 +8,8 @@ export default class ContractCategoryService {
     return prisma.contractCategory.findMany();
   }
 
-  static async find(id: string): Promise<ContractCategory | null> {
-    return prisma.contractCategory.findUnique({ where: { id } });
+  static async find(query: { id: string }): Promise<ContractCategory | null> {
+    return prisma.contractCategory.findUnique({ where: query });
   }
 
   static async create(data: CreateContractCategory): Promise<ContractCategory> {
