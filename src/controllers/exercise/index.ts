@@ -46,7 +46,7 @@ export default class ExerciseController {
       const machine = await MachineService.find({ id: body.machine_id });
 
       if (!machine) {
-        return response.badrequest({ errors: { creator_id: 'Invalid Machine ID provided' } });
+        return response.badrequest({ errors: { machine_id: 'Invalid Machine ID provided' } });
       }
 
       const categories = await Promise.all(
@@ -56,7 +56,7 @@ export default class ExerciseController {
       const invalidCategories = categories.filter((category) => !category);
 
       if (invalidCategories.length > 0) {
-        return response.badrequest({ errors: { category: 'Invalid Category ID provided' } });
+        return response.badrequest({ errors: { categories: 'Invalid Category ID provided' } });
       }
 
       const exercise = await ExerciseService.create({
@@ -81,7 +81,7 @@ export default class ExerciseController {
         const machine = await MachineService.find({ id: body.machine_id });
 
         if (!machine) {
-          return response.badrequest({ errors: { creator_id: 'Invalid Machine ID provided' } });
+          return response.badrequest({ errors: { machine_id: 'Invalid Machine ID provided' } });
         }
       }
 
@@ -93,7 +93,7 @@ export default class ExerciseController {
         const invalidCategories = categories.filter((category) => !category);
 
         if (invalidCategories.length > 0) {
-          return response.badrequest({ errors: { category: 'Invalid Category ID provided' } });
+          return response.badrequest({ errors: { categories: 'Invalid Category ID provided' } });
         }
       }
 
