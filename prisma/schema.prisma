@@ -103,5 +103,5 @@ model Exercise{
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   categories Category[]
-  machine    Machine  @relation("ExerciseMachine",fields: [machine_id], references: [id])
+  machine    Machine  @relation("ExerciseMachine", fields: [machine_id], references: [id])
 }
