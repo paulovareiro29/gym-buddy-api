@@ -52,6 +52,7 @@ export default class ExerciseController {
       const categories = await Promise.all(
         body.categories.map(async (categoryId) => CategoriesService.find({ id: categoryId }))
       );
+
       const invalidCategories = categories.filter((category) => !category);
 
       if (invalidCategories.length > 0) {
@@ -75,32 +76,25 @@ export default class ExerciseController {
     const { id } = request.params as any as FindExerciseRequest;
     const body = request.body as any as PatchExerciseRequest;
 
-    if (!body.name) {
-      return response.badrequest({ errors: { name: 'Name is required' } });
-    }
-
-    if (!body.categories?.length) {
-      return response.badrequest({ errors: { name: 'Categories are required' } });
-    }
-
-    if (!body.machine_id) {
-      return response.badrequest({ errors: { name: 'Machine is required' } });
-    }
-
     try {
-      const machine = await MachineService.find({ id: body.machine_id });
+      if (body.machine_id) {
+        const machine = await MachineService.find({ id: body.machine_id });
 
-      if (!machine) {
-        return response.badrequest({ errors: { creator_id: 'Invalid Machine ID provided' } });
+        if (!machine) {
+          return response.badrequest({ errors: { creator_id: 'Invalid Machine ID provided' } });
+        }
       }
 
-      const categories = await Promise.all(
-        body.categories.map(async (categoryId) => CategoriesService.find({ id: categoryId }))
-      );
-      const invalidCategories = categories.filter((category) => !category);
+      if (body.categories) {
+        const categories = await Promise.all(
+          body.categories.map(async (categoryId) => CategoriesService.find({ id: categoryId }))
+        );
 
-      if (invalidCategories.length > 0) {
-        return response.badrequest({ errors: { category: 'Invalid Category ID provided' } });
+        const invalidCategories = categories.filter((category) => !category);
+
+        if (invalidCategories.length > 0) {
+          return response.badrequest({ errors: { category: 'Invalid Category ID provided' } });
+        }
       }
 
       const exercise = await ExerciseService.patch(id, {

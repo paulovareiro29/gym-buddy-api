@@ -27,7 +27,7 @@ export interface CreateExercise {
 
 export interface UpdateExercise {
   name?: string;
-  machine_id: string;
+  machine_id?: string;
   photo?: string;
   categories?: string[];
 }
