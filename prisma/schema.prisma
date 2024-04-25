@@ -54,13 +54,14 @@ model Metric {
 }
 
 model TrainingPlan {
-  id         String   @id @default(uuid())
-  name       String
-  creator_id String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  creator    User   @relation("TrainingCreator",fields: [creator_id], references: [id])
-  userPlan   UserPlan[] @relation("TrainingPlan")
+  id            String   @id @default(uuid())
+  name          String
+  creator_id    String
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  creator       User   @relation("TrainingCreator",fields: [creator_id], references: [id])
+  userPlan      UserPlan[] @relation("TrainingPlan")
+  planExercise  PlanExercise[] @relation("PlanExercise")
 }
 
 model UserPlan {
@@ -96,12 +97,27 @@ model Machine {
 }
 
 model Exercise{ 
-  id         String @id @default(uuid())
-  name       String
-  photo      String
-  machine_id String
+  id            String @id @default(uuid())
+  name          String
+  photo         String
+  machine_id    String
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  categories    Category[]
+  machine       Machine  @relation("ExerciseMachine", fields: [machine_id], references: [id])
+  planExercise  PlanExercise[] @relation("Exercise")
+}
+
+model PlanExercise {
+  id          String @id @default(uuid())
+  plan_id     String 
+  exercise_id String
+  repetitions Int
+  sets        Int
+  rest_between_sets Int
+  day         Int
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  categories Category[]
-  machine    Machine  @relation("ExerciseMachine", fields: [machine_id], references: [id])
+  plan        TrainingPlan @relation("PlanExercise", fields: [plan_id], references: [id]) 
+  exercise    Exercise @relation("Exercise", fields: [exercise_id], references: [id])
 }
