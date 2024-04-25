@@ -13,7 +13,7 @@ export default class ContractCategoryService {
   }
 
   static async create(data: CreateContractCategory): Promise<ContractCategory> {
-    return prisma.contractCategory.create({ data: { name: data.name } });
+    return prisma.contractCategory.create({ data });
   }
 
   static async patch(id: string, data: UpdateContractCategory): Promise<ContractCategory> {

@@ -3,7 +3,7 @@ export interface FindContractCategory {
 }
 
 export interface CreateContractCategory {
-  name?: string;
+  name: string;
 }
 
 export interface UpdateContractCategory {

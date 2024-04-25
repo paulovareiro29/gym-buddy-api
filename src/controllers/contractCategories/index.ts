@@ -45,6 +45,10 @@ export default class ContractCategoryController {
     const { id } = request.params as any as FindContractCategoriesRequest;
     const body = request.body as any as PatchContractCategoriesRequest;
 
+    if (!body.name) {
+      return response.badrequest({ errors: { name: 'Name is required' } });
+    }
+
     try {
       const contractCategory = await ContractCategoryService.patch(id, { name: body.name });
 
