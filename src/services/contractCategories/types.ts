@@ -1,7 +1,3 @@
-export interface FindContractCategory {
-  id: string;
-}
-
 export interface CreateContractCategory {
   name: string;
 }
