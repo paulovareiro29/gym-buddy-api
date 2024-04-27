@@ -76,6 +76,13 @@ model UserPlan {
   @@id([user_id, plan_id])
 }
 
+model ContractCategory {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  created_at DateTime @default(now()) 
+  updated_at DateTime @updatedAt
+}
+
 model Category { 
   id         String   @id @default(uuid())
   name       String
