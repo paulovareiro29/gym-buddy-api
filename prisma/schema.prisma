@@ -128,7 +128,4 @@ model Contract {
   beneficiary     User            @relation("BeneficiaryContracts", fields: [beneficiary_id], references: [id])
   provider        User            @relation("ProviderContracts", fields: [provider_id], references: [id])
   category        ContractCategory @relation(fields: [category_id], references: [id])
-
-  @@index([beneficiary_id], name: "idx_contract_beneficiary")
-  @@index([provider_id], name: "idx_contract_provider")
 }

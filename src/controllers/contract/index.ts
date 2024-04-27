@@ -26,25 +26,6 @@ export default class ContractController {
   static async create(request: Request, response: Response) {
     const body = request.body as any as CreateContractRequest;
 
-    try {
-      const beneficiary = await UserService.find({ id: body.beneficiary_id });
-      const provider = await UserService.find({ id: body.provider_id });
-      const category = await ContractCategoryService.find({ id: body.category_id });
-
-      if (!beneficiary) {
-        // eslint-disable-next-line prettier/prettier
-        return response.badrequest({ errors: { beneficiary_id: 'Invalid beneficiary ID provided' } });
-      }
-      if (!provider) {
-        return response.badrequest({ errors: { provider_id: 'Invalid provider ID provided' } });
-      }
-      if (!category) {
-        return response.badrequest({ errors: { category_id: 'Invalid category ID provided' } });
-      }
-    } catch (err) {
-      return response.error(handlePrismaError(err));
-    }
-
     if (!body.beneficiary_id) {
       return response.badrequest({ errors: { beneficiary_id: 'Beneficiary is required ' } });
     }
@@ -59,6 +40,26 @@ export default class ContractController {
     }
     if (!body.end_date) {
       return response.badrequest({ errors: { end_date: 'End date is required' } });
+    }
+
+    try {
+      const beneficiary = await UserService.find({ id: body.beneficiary_id });
+      if (!beneficiary) {
+        // eslint-disable-next-line prettier/prettier
+        return response.badrequest({ errors: { beneficiary_id: 'Invalid beneficiary ID provided' } });
+      }
+
+      const provider = await UserService.find({ id: body.provider_id });
+      if (!provider) {
+        return response.badrequest({ errors: { provider_id: 'Invalid provider ID provided' } });
+      }
+
+      const category = await ContractCategoryService.find({ id: body.category_id });
+      if (!category) {
+        return response.badrequest({ errors: { category_id: 'Invalid category ID provided' } });
+      }
+    } catch (err) {
+      return response.error(handlePrismaError(err));
     }
 
     try {
