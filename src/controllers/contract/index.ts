@@ -38,9 +38,6 @@ export default class ContractController {
     if (!body.start_date) {
       return response.badrequest({ errors: { start_date: 'Start date is required' } });
     }
-    if (!body.end_date) {
-      return response.badrequest({ errors: { end_date: 'End date is required' } });
-    }
 
     try {
       const beneficiary = await UserService.find({ id: body.beneficiary_id });
@@ -83,6 +80,22 @@ export default class ContractController {
 
     // TODO: Verify if the logged user has the authority to update the contract
     try {
+      if (body.provider_id) {
+        const provider = await UserService.find({ id: body.provider_id });
+
+        if (!provider) {
+          return response.badrequest({ errors: { provider_id: 'Invalid Provider ID provided' } });
+        }
+      }
+
+      if (body.category_id) {
+        const category = await ContractCategoryService.find({ id: body.category_id });
+
+        if (!category) {
+          return response.badrequest({ errors: { category_id: 'Invalid Category ID provided' } });
+        }
+      }
+
       const contract = await ContractService.patch(id, {
         beneficiary_id: body.beneficiary_id,
         provider_id: body.provider_id,

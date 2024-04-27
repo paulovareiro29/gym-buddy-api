@@ -12,12 +12,6 @@ CREATE TABLE "Contract" (
     CONSTRAINT "Contract_pkey" PRIMARY KEY ("id")
 );
 
--- CreateIndex
-CREATE INDEX "idx_contract_beneficiary" ON "Contract"("beneficiary_id");
-
--- CreateIndex
-CREATE INDEX "idx_contract_provider" ON "Contract"("provider_id");
-
 -- AddForeignKey
 ALTER TABLE "Contract" ADD CONSTRAINT "Contract_beneficiary_id_fkey" FOREIGN KEY ("beneficiary_id") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
