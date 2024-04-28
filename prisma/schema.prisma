@@ -29,6 +29,8 @@ model User {
   creatorMetric Metric[] @relation("CreatorMetric")
   trainingPlanCreator TrainingPlan[] @relation("TrainingCreator")
   userPlan      UserPlan[] @relation("UserPlan")
+  beneficiaryContracts Contract[] @relation("BeneficiaryContracts")
+  providerContracts    Contract[] @relation("ProviderContracts")
 }
 
 model MetricType {
@@ -76,13 +78,6 @@ model UserPlan {
   @@id([user_id, plan_id])
 }
 
-model ContractCategory {
-  id         String   @id @default(uuid())
-  name       String   @unique
-  created_at DateTime @default(now()) 
-  updated_at DateTime @updatedAt
-}
-
 model Category { 
   id         String   @id @default(uuid())
   name       String
@@ -111,4 +106,26 @@ model Exercise{
   updated_at DateTime @updatedAt
   categories Category[]
   machine    Machine  @relation("ExerciseMachine", fields: [machine_id], references: [id])
+}
+model ContractCategory {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  created_at DateTime @default(now()) 
+  updated_at DateTime @updatedAt
+  contracts  Contract[]
+}
+
+model Contract {
+  id              String          @id @default(uuid())
+  beneficiary_id  String
+  provider_id     String
+  start_date      DateTime
+  end_date        DateTime?
+  category_id     String
+  created_at      DateTime        @default(now())
+  updated_at      DateTime        @updatedAt
+  
+  beneficiary     User            @relation("BeneficiaryContracts", fields: [beneficiary_id], references: [id])
+  provider        User            @relation("ProviderContracts", fields: [provider_id], references: [id])
+  category        ContractCategory @relation(fields: [category_id], references: [id])
 }

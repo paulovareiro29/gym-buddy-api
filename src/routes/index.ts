@@ -6,10 +6,11 @@ import users from './user';
 import metricTypes from './metricsType.routes';
 import metrics from './metric.routes';
 import trainingPlan from './trainingPlan.routes';
-import contractCategories from './contractCategory.routes';
 import category from './category.routes';
 import machine from './machine.routes';
 import exercise from './exercise.routes';
+import contractCategories from './contractCategory.routes';
+import contracts from './contract.routes';
 
 const router = Router();
 
@@ -20,9 +21,9 @@ router.use('/users', users);
 router.use('/metricTypes', metricTypes);
 router.use('/metrics', metrics);
 router.use('/plans', trainingPlan);
-router.use('/contractCategories', contractCategories);
 router.use('/categories', category);
 router.use('/machines', machine);
 router.use('/exercises', exercise);
-
+router.use('/contractCategories', contractCategories);
+router.use('/contracts', contracts);
 export default router;
