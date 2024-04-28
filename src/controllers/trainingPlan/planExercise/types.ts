@@ -2,6 +2,10 @@ export interface FindPlanExerciseRequest {
   id: string;
 }
 
+export interface PlanRequest {
+  plan_id: string;
+}
+
 export interface CreatePlanExerciseRequest {
   plan_id?: string;
   exercise_id?: string;

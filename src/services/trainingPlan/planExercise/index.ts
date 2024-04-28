@@ -1,6 +1,6 @@
 import { PrismaClient, PlanExercise } from '@prisma/client';
 import { NormalizedPlanExercise, CreatePlanExercise, UpdatePlanExercise } from './types';
-import { FindQuery } from '../../types/global';
+import { FindQuery } from '../../../types/global';
 import schema from './schema';
 
 const prisma = new PrismaClient();
