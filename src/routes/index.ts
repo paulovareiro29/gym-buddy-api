@@ -9,7 +9,6 @@ import trainingPlan from './plan/index';
 import category from './category.routes';
 import machine from './machine.routes';
 import exercise from './exercise.routes';
-import planExercise from './plan/planExercise.routes';
 
 const router = Router();
 
@@ -23,6 +22,5 @@ router.use('/plans', trainingPlan);
 router.use('/categories', category);
 router.use('/machines', machine);
 router.use('/exercises', exercise);
-router.use('/planExercise', planExercise);
 
 export default router;

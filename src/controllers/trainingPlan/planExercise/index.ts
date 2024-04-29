@@ -60,10 +60,16 @@ export default class PlanExerciseController {
     }
 
     try {
-      const foundExercise = await ExerciseService.find({ id: body.exercise_id });
+      const plan = await TrainingPlanService.find({ id: plan_id });
 
-      if (!foundExercise) {
-        return response.badrequest({ errors: { machine_id: 'Invalid Exercise ID provided' } });
+      if (plan) {
+        const exercise = await ExerciseService.find({ id: body.exercise_id });
+
+        if (!exercise) {
+          return response.badrequest({ errors: { machine_id: 'Invalid Exercise ID provided' } });
+        }
+      } else {
+        return response.badrequest({ errors: { plan_id: 'Invalid Plan ID provided' } });
       }
 
       const planExercise = await PlanExerciseService.create({

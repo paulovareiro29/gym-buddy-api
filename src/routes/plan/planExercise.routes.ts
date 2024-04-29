@@ -5,24 +5,20 @@ import AuthenticationMiddleware from '../../middlewares/authentication.middlewar
 const router = Router();
 
 router
+  .get('/:plan_id/exercise', AuthenticationMiddleware.authenticated, PlanExerciseController.getAll)
   .get(
-    '/:plan_id/planExercise',
-    AuthenticationMiddleware.authenticated,
-    PlanExerciseController.getAll
-  )
-  .get(
-    '/:plan_id/planExercise/:id',
+    '/:plan_id/exercise/:id',
     AuthenticationMiddleware.authenticated,
     PlanExerciseController.find
   )
   .post(
-    '/:plan_id/planExercise',
+    '/:plan_id/exercise',
     AuthenticationMiddleware.authenticated,
     AuthenticationMiddleware.authorized(['admin']),
     PlanExerciseController.create
   )
   .put(
-    '/:plan_id/planExercise/:id',
+    '/:plan_id/exercise/:id',
     AuthenticationMiddleware.authenticated,
     AuthenticationMiddleware.authorized(['admin']),
     PlanExerciseController.patch
