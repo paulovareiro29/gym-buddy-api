@@ -5,7 +5,7 @@ import roles from './role.routes';
 import users from './user';
 import metricTypes from './metricsType.routes';
 import metrics from './metric.routes';
-import trainingPlan from './trainingPlan.routes';
+import trainingPlan from './plan';
 import category from './category.routes';
 import machine from './machine.routes';
 import exercise from './exercise.routes';

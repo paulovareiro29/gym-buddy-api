@@ -1,10 +1,12 @@
 import Router from 'express';
-import TrainingPlanController from '../controllers/trainingPlan';
-import AuthenticationMiddleware from '../middlewares/authentication.middleware';
+import TrainingPlanController from '../../controllers/trainingPlan';
+import AuthenticationMiddleware from '../../middlewares/authentication.middleware';
+import planExercise from './exercise.routes';
 
 const router = Router();
 
 router
+  .use('/', planExercise)
   .get('/', AuthenticationMiddleware.authenticated, TrainingPlanController.getAll)
   .get('/:id', AuthenticationMiddleware.authenticated, TrainingPlanController.find)
   .post(
