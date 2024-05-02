@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import PlanExerciseService from '../../../services/trainingPlan/planExercise';
+import PlanExerciseService from '../../../services/trainingPlan/exercise';
 import {
   CreatePlanExerciseRequest,
   FindPlanExerciseRequest,

@@ -1,7 +1,8 @@
 import Router from 'express';
 import TrainingPlanController from '../../controllers/trainingPlan';
 import AuthenticationMiddleware from '../../middlewares/authentication.middleware';
-import planExercise from './planExercise.routes';
+import planExercise from './exercise.routes';
+
 const router = Router();
 
 router
