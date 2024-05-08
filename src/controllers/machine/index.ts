@@ -67,18 +67,16 @@ export default class MachineController {
       return response.badrequest({ errors: { name: 'Name is required' } });
     }
 
-    if (!body.categories?.length) {
-      return response.badrequest({ errors: { name: 'Categories are required' } });
-    }
-
     try {
-      const categories = await Promise.all(
-        body.categories.map(async (categoryId) => CategoriesService.find({ id: categoryId }))
-      );
-      const invalidCategories = categories.filter((category) => !category);
+      if (body.categories?.length) {
+        const categories = await Promise.all(
+          body.categories.map(async (categoryId) => CategoriesService.find({ id: categoryId }))
+        );
+        const invalidCategories = categories.filter((category) => !category);
 
-      if (invalidCategories.length > 0) {
-        return response.badrequest({ errors: { category: 'Invalid Category ID provided' } });
+        if (invalidCategories.length > 0) {
+          return response.badrequest({ errors: { category: 'Invalid Category ID provided' } });
+        }
       }
 
       const machine = await MachineService.patch(id, {

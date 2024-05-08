@@ -8,6 +8,6 @@ export interface CreateTrainingPlanRequest {
 }
 
 export interface PatchTrainingPlanRequest {
-  name: string;
-  creator_id: string;
+  name?: string;
+  creator_id?: string;
 }

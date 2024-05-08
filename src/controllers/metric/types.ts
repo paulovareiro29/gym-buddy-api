@@ -11,9 +11,9 @@ export interface CreateMetricRequest {
 }
 
 export interface PatchMetricRequest {
-  user_id: string;
-  creator_id: string;
-  type_id: string;
-  value: string;
-  date: Date;
+  user_id?: string;
+  creator_id?: string;
+  type_id?: string;
+  value?: string;
+  date?: Date;
 }
