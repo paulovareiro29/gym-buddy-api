@@ -50,10 +50,6 @@ export default class TrainingPlanController {
     const body = request.body as PatchTrainingPlanRequest;
 
     try {
-      if (!body.name) {
-        return response.badrequest({ errors: { name: 'Name is required' } });
-      }
-
       const trainingPlan = await TrainingPlanService.patch(id, { name: body.name });
 
       return response.success({ data: trainingPlan });

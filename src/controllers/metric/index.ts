@@ -76,14 +76,35 @@ export default class MetricController {
     const { id } = request.params as any as FindMetricRequest;
     const body = request.body as any as PatchMetricRequest;
 
-    // TODO: Verify if the logged user is an administrator or a personal trainer
     try {
+      if (body.user_id) {
+        const user = await UserService.find({ id: body.user_id });
+
+        if (!user) {
+          return response.badrequest({ errors: { user_id: 'Invalid User ID provided' } });
+        }
+      }
+      if (body.creator_id) {
+        const creator = await UserService.find({ id: body.creator_id });
+
+        if (!creator) {
+          return response.badrequest({ errors: { creator_id: 'Invalid Creator ID provided' } });
+        }
+      }
+      if (body.type_id) {
+        const metricType = await MetricTypesService.find({ id: body.type_id });
+
+        if (!metricType) {
+          return response.badrequest({ errors: { type_id: 'Invalid Type ID provided' } });
+        }
+      }
+
       const metric = await MetricService.patch(id, {
-        user_id: body.user_id!,
-        creator_id: body.creator_id!,
-        type_id: body.type_id!,
-        value: body.value!,
-        date: body.date!
+        user_id: body.user_id,
+        creator_id: body.creator_id,
+        type_id: body.type_id,
+        value: body.value,
+        date: body.date
       });
 
       return response.success({ data: metric });

@@ -64,10 +64,6 @@ export default class UserPlanController {
     const body = request.body as PatchUserPlanRequest;
 
     try {
-      if (!body.start_date) {
-        return response.badrequest({ errors: { user_id: 'Start Date is required' } });
-      }
-
       const userPlan = await UserPlanService.patch(user_id, plan_id, {
         start_date: body.start_date,
         end_date: body.end_date

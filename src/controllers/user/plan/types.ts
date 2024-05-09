@@ -13,6 +13,6 @@ export interface CreateUserPlanRequest {
 }
 
 export interface PatchUserPlanRequest {
-  start_date: Date;
-  end_date: Date;
+  start_date?: Date;
+  end_date?: Date;
 }

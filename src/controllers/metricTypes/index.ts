@@ -24,7 +24,6 @@ export default class MetricTypesController {
   static async create(request: Request, response: Response) {
     const body = request.body as any as CreateMetricTypesRequest;
 
-    // TODO: Validate if the logged user is a admin
     if (!body.name) {
       return response.badrequest({ errors: { name: 'Name is required' } });
     }
@@ -41,8 +40,6 @@ export default class MetricTypesController {
   static async patch(request: Request, response: Response) {
     const { id } = request.params as any as FindMetricTypesRequest;
     const body = request.body as any as PatchMetricTypesRequest;
-
-    // TODO: Validate if the logged user is a admin
 
     try {
       const metricsType = await MetricTypesService.patch(id, { name: body.name });
