@@ -63,10 +63,6 @@ export default class MachineController {
     const { id } = request.params as any as FindMachineRequest;
     const body = request.body as any as PatchMachineRequest;
 
-    if (!body.name) {
-      return response.badrequest({ errors: { name: 'Name is required' } });
-    }
-
     try {
       if (body.categories?.length) {
         const categories = await Promise.all(
