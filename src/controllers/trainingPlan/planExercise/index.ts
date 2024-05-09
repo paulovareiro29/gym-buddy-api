@@ -14,7 +14,7 @@ export default class PlanExerciseController {
   static async getAll(_: Request, response: Response) {
     try {
       const planExercises = await PlanExerciseService.getAll();
-      return response.success({ data: planExercises });
+      return response.success({ data: { planExercises } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -32,7 +32,7 @@ export default class PlanExerciseController {
       return response.notfound();
     }
 
-    return response.success({ data: planExercise });
+    return response.success({ data: { planExercise } });
   }
 
   static async create(request: Request, response: Response) {
@@ -81,7 +81,7 @@ export default class PlanExerciseController {
         day: body.day
       });
 
-      return response.success({ data: planExercise });
+      return response.success({ data: { planExercise } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -117,7 +117,7 @@ export default class PlanExerciseController {
         day: body.day
       });
 
-      return response.success({ data: planExercise });
+      return response.success({ data: { planExercise } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }

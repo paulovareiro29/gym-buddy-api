@@ -7,8 +7,8 @@ import MetricTypesService from '../../services/metricTypes';
 
 export default class MetricController {
   static async getAll(_: Request, response: Response) {
-    const metric = await MetricService.getAll();
-    return response.success({ data: metric });
+    const metrics = await MetricService.getAll();
+    return response.success({ data: { metrics } });
   }
 
   static async find(request: Request, response: Response) {
@@ -20,7 +20,7 @@ export default class MetricController {
       return response.notfound();
     }
 
-    return response.success({ data: metric });
+    return response.success({ data: { metric } });
   }
 
   static async create(request: Request, response: Response) {
@@ -66,7 +66,7 @@ export default class MetricController {
         date: body.date!
       });
 
-      return response.success({ data: metric });
+      return response.success({ data: { metric } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -107,7 +107,7 @@ export default class MetricController {
         date: body.date
       });
 
-      return response.success({ data: metric });
+      return response.success({ data: { metric } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }

@@ -5,7 +5,7 @@ import { FindRoleRequest } from './types';
 export default class RoleController {
   static async getAll(_: Request, response: Response) {
     const roles = await RoleService.getAll();
-    return response.success({ data: roles });
+    return response.success({ data: { roles } });
   }
 
   static async find(request: Request, response: Response) {
@@ -17,6 +17,6 @@ export default class RoleController {
       return response.notfound();
     }
 
-    return response.success({ data: user });
+    return response.success({ data: { user } });
   }
 }

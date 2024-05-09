@@ -12,7 +12,7 @@ import TrainingPlanService from '../../../services/trainingPlan';
 export default class UserPlanController {
   static async getAll(_: Request, response: Response) {
     const userPlans = await UserPlanService.getAll();
-    return response.success({ data: userPlans });
+    return response.success({ data: { userPlans } });
   }
 
   static async find(request: Request, response: Response) {
@@ -27,7 +27,7 @@ export default class UserPlanController {
       return response.notfound({});
     }
 
-    return response.success({ data: userPlan });
+    return response.success({ data: { userPlan } });
   }
 
   static async create(request: Request, response: Response) {
@@ -53,7 +53,7 @@ export default class UserPlanController {
         end_date: body.end_date
       });
 
-      return response.success({ data: userPlan });
+      return response.success({ data: { userPlan } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -69,7 +69,7 @@ export default class UserPlanController {
         end_date: body.end_date
       });
 
-      return response.success({ data: userPlan });
+      return response.success({ data: { userPlan } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }

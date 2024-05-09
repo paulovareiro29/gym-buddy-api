@@ -10,7 +10,7 @@ import { handlePrismaError } from '../../lib/handle-prisma-error';
 export default class ContractCategoryController {
   static async getAll(_: Request, response: Response) {
     const contractCategories = await ContractCategoryService.getAll();
-    return response.success({ data: contractCategories });
+    return response.success({ data: { contractCategories } });
   }
 
   static async find(request: Request, response: Response) {
@@ -22,7 +22,7 @@ export default class ContractCategoryController {
       return response.notfound();
     }
 
-    return response.success({ data: contractCategory });
+    return response.success({ data: { contractCategory } });
   }
 
   static async create(request: Request, response: Response) {
@@ -35,7 +35,7 @@ export default class ContractCategoryController {
     try {
       const contractCategory = await ContractCategoryService.create({ name: body.name! });
 
-      return response.success({ data: contractCategory });
+      return response.success({ data: { contractCategory } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -48,7 +48,7 @@ export default class ContractCategoryController {
     try {
       const contractCategory = await ContractCategoryService.patch(id, { name: body.name });
 
-      return response.success({ data: contractCategory });
+      return response.success({ data: { contractCategory } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }

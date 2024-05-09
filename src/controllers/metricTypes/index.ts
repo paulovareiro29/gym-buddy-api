@@ -6,7 +6,7 @@ import { handlePrismaError } from '../../lib/handle-prisma-error';
 export default class MetricTypesController {
   static async getAll(_: Request, response: Response) {
     const metricsTypes = await MetricTypesService.getAll();
-    return response.success({ data: metricsTypes });
+    return response.success({ data: { metricsTypes } });
   }
 
   static async find(request: Request, response: Response) {
@@ -18,7 +18,7 @@ export default class MetricTypesController {
       return response.notfound();
     }
 
-    return response.success({ data: metricsType });
+    return response.success({ data: { metricsType } });
   }
 
   static async create(request: Request, response: Response) {
@@ -31,7 +31,7 @@ export default class MetricTypesController {
     try {
       const metricsType = await MetricTypesService.create({ name: body.name! });
 
-      return response.success({ data: metricsType });
+      return response.success({ data: { metricsType } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -44,7 +44,7 @@ export default class MetricTypesController {
     try {
       const metricsType = await MetricTypesService.patch(id, { name: body.name });
 
-      return response.success({ data: metricsType });
+      return response.success({ data: { metricsType } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }

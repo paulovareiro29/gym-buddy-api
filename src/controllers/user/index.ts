@@ -6,7 +6,7 @@ import { handlePrismaError } from '../../lib/handle-prisma-error';
 export default class UserController {
   static async getAll(_: Request, response: Response) {
     const users = await UserService.getAll();
-    return response.success({ data: users });
+    return response.success({ data: { users } });
   }
 
   static async find(request: Request, response: Response) {
@@ -18,7 +18,7 @@ export default class UserController {
       return response.notfound();
     }
 
-    return response.success({ data: user });
+    return response.success({ data: { user } });
   }
 
   static async patch(request: Request, response: Response) {
@@ -31,7 +31,7 @@ export default class UserController {
         name: body.name
       });
 
-      return response.success({ data: user });
+      return response.success({ data: { user } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
