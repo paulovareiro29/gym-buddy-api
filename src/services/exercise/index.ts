@@ -29,14 +29,19 @@ export default class ExerciseService {
   }
 
   static async patch(id: string, data: UpdateExercise): Promise<NormalizedExercise> {
+    const updateData: any = {
+      name: data.name,
+      photo: data.photo,
+      categories: { set: data.categories?.map((categoryId) => ({ id: categoryId })) }
+    };
+
+    if (data.machine_id) {
+      updateData.machine = { connect: { id: data.machine_id } };
+    }
+
     return prisma.exercise.update({
       where: { id },
-      data: {
-        name: data.name,
-        machine: { connect: { id: data.machine_id } },
-        categories: { set: data.categories?.map((categoryId) => ({ id: categoryId })) },
-        photo: data.photo
-      },
+      data: updateData,
       select: schema
     });
   }

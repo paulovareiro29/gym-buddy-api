@@ -77,7 +77,7 @@ export default class ExerciseController {
     const body = request.body as any as PatchExerciseRequest;
 
     try {
-      if (body.machine_id !== undefined) {
+      if (body.machine_id) {
         const machine = await MachineService.find({ id: body.machine_id });
 
         if (!machine) {
