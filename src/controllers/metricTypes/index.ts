@@ -5,20 +5,20 @@ import { handlePrismaError } from '../../lib/handle-prisma-error';
 
 export default class MetricTypesController {
   static async getAll(_: Request, response: Response) {
-    const metricsTypes = await MetricTypesService.getAll();
-    return response.success({ data: { metricsTypes } });
+    const metricTypes = await MetricTypesService.getAll();
+    return response.success({ data: { metricTypes } });
   }
 
   static async find(request: Request, response: Response) {
     const { id } = request.params as any as FindMetricTypesRequest;
 
-    const metricsType = await MetricTypesService.find({ id });
+    const metricType = await MetricTypesService.find({ id });
 
-    if (!metricsType) {
+    if (!metricType) {
       return response.notfound();
     }
 
-    return response.success({ data: { metricsType } });
+    return response.success({ data: { metricType } });
   }
 
   static async create(request: Request, response: Response) {
@@ -29,9 +29,9 @@ export default class MetricTypesController {
     }
 
     try {
-      const metricsType = await MetricTypesService.create({ name: body.name! });
+      const metricType = await MetricTypesService.create({ name: body.name! });
 
-      return response.success({ data: { metricsType } });
+      return response.success({ data: { metricType } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -42,9 +42,9 @@ export default class MetricTypesController {
     const body = request.body as any as PatchMetricTypesRequest;
 
     try {
-      const metricsType = await MetricTypesService.patch(id, { name: body.name });
+      const metricType = await MetricTypesService.patch(id, { name: body.name });
 
-      return response.success({ data: { metricsType } });
+      return response.success({ data: { metricType } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
