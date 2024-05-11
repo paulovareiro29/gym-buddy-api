@@ -68,7 +68,7 @@ export default class AuthenticationController {
         role_id: body.role_id!
       });
 
-      return response.success({ data: user });
+      return response.success({ data: { user } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }

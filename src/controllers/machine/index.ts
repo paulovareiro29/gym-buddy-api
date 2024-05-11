@@ -8,7 +8,7 @@ export default class MachineController {
   static async getAll(_: Request, response: Response) {
     try {
       const machines = await MachineService.getAll();
-      return response.success({ data: machines });
+      return response.success({ data: { machines } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -23,7 +23,7 @@ export default class MachineController {
       return response.notfound();
     }
 
-    return response.success({ data: machine });
+    return response.success({ data: { machine } });
   }
 
   static async create(request: Request, response: Response) {
@@ -53,7 +53,7 @@ export default class MachineController {
         photo: body.photo
       });
 
-      return response.success({ data: machine });
+      return response.success({ data: { machine } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -81,7 +81,7 @@ export default class MachineController {
         photo: body.photo
       });
 
-      return response.success({ data: machine });
+      return response.success({ data: { machine } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }

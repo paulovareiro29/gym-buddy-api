@@ -10,7 +10,7 @@ import { handlePrismaError } from '../../lib/handle-prisma-error';
 export default class TrainingPlanController {
   static async getAll(_: Request, response: Response) {
     const trainingPlans = await TrainingPlanService.getAll();
-    return response.success({ data: trainingPlans });
+    return response.success({ data: { trainingPlans } });
   }
 
   static async find(request: Request, response: Response) {
@@ -22,7 +22,7 @@ export default class TrainingPlanController {
       return response.notfound();
     }
 
-    return response.success({ data: trainingPlan });
+    return response.success({ data: { trainingPlan } });
   }
 
   static async create(request: Request, response: Response) {
@@ -39,7 +39,7 @@ export default class TrainingPlanController {
         creator_id: loggedUser.id
       });
 
-      return response.success({ data: trainingPlan });
+      return response.success({ data: { trainingPlan } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -52,7 +52,7 @@ export default class TrainingPlanController {
     try {
       const trainingPlan = await TrainingPlanService.patch(id, { name: body.name });
 
-      return response.success({ data: trainingPlan });
+      return response.success({ data: { trainingPlan } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }

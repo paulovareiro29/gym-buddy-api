@@ -9,7 +9,7 @@ export default class ExerciseController {
   static async getAll(_: Request, response: Response) {
     try {
       const exercises = await ExerciseService.getAll();
-      return response.success({ data: exercises });
+      return response.success({ data: { exercises } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -24,7 +24,7 @@ export default class ExerciseController {
       return response.notfound();
     }
 
-    return response.success({ data: exercise });
+    return response.success({ data: { exercise } });
   }
 
   static async create(request: Request, response: Response) {
@@ -66,7 +66,7 @@ export default class ExerciseController {
         photo: body.photo
       });
 
-      return response.success({ data: exercise });
+      return response.success({ data: { exercise } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -104,7 +104,7 @@ export default class ExerciseController {
         photo: body.photo
       });
 
-      return response.success({ data: exercise });
+      return response.success({ data: { exercise } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }

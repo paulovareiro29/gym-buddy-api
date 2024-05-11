@@ -8,7 +8,7 @@ import ContractCategoryService from '../../services/contractCategories';
 export default class ContractController {
   static async getAll(_: Request, response: Response) {
     const contracts = await ContractService.getAll();
-    return response.success({ data: contracts });
+    return response.success({ data: { contracts } });
   }
 
   static async find(request: Request, response: Response) {
@@ -20,7 +20,7 @@ export default class ContractController {
       return response.notfound();
     }
 
-    return response.success({ data: contract });
+    return response.success({ data: { contract } });
   }
 
   static async create(request: Request, response: Response) {
@@ -68,7 +68,7 @@ export default class ContractController {
         end_date: body.end_date
       });
 
-      return response.success({ data: contract });
+      return response.success({ data: { contract } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -104,7 +104,7 @@ export default class ContractController {
         end_date: body.end_date
       });
 
-      return response.success({ data: contract });
+      return response.success({ data: { contract } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }

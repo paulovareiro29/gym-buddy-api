@@ -6,7 +6,7 @@ import { handlePrismaError } from '../../lib/handle-prisma-error';
 export default class CategoryController {
   static async getAll(_: Request, response: Response) {
     const categories = await CategoryService.getAll();
-    return response.success({ data: categories });
+    return response.success({ data: { categories } });
   }
 
   static async find(request: Request, response: Response) {
@@ -18,7 +18,7 @@ export default class CategoryController {
       return response.notfound();
     }
 
-    return response.success({ data: category });
+    return response.success({ data: { category } });
   }
 
   static async create(request: Request, response: Response) {
@@ -31,7 +31,7 @@ export default class CategoryController {
     try {
       const category = await CategoryService.create({ name: body.name! });
 
-      return response.success({ data: category });
+      return response.success({ data: { category } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -44,7 +44,7 @@ export default class CategoryController {
     try {
       const category = await CategoryService.patch(id, { name: body.name });
 
-      return response.success({ data: category });
+      return response.success({ data: { category } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
