@@ -6,7 +6,7 @@ import schema from './schema';
 const prisma = new PrismaClient();
 
 export default class TrainingPlanService {
-   static async getAll(creatorId?: string): Promise<NormalizedTrainingPlan[]> {
+  static async getAll(creatorId?: string): Promise<NormalizedTrainingPlan[]> {
     if (creatorId) {
       return prisma.trainingPlan.findMany({
         where: { creator_id: creatorId },
