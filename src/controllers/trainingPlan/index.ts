@@ -3,7 +3,6 @@ import TrainingPlanService from '../../services/trainingPlan';
 import {
   CreateTrainingPlanRequest,
   FindTrainingPlanRequest,
-  FindTrainingPlanByCreatorRequest,
   PatchTrainingPlanRequest
 } from './types';
 import { handlePrismaError } from '../../lib/handle-prisma-error';
