@@ -15,7 +15,8 @@ export default class MetricController {
   static async getNumberOfTrainingPlansByTrainer(req: Request, res: Response) {
     try {
       const { user_id: trainerId } = req.params;
-      const numberOfTrainingPlans = await MetricService.getNumberOfTrainingPlansByTrainer(trainerId);
+      const numberOfTrainingPlans =
+        await MetricService.getNumberOfTrainingPlansByTrainer(trainerId);
       return res.status(200).json({ numberOfTrainingPlans });
     } catch (error) {
       return res.status(500).json({ error: error.message });

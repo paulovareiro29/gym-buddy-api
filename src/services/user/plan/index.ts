@@ -6,15 +6,8 @@ import schema from './schema';
 const prisma = new PrismaClient();
 
 export default class UserPlanService {
-  static async getAll(planId?: string): Promise<NormalizedUserPlan[]> {
-    if (planId) {
-      return prisma.userPlan.findMany({
-        where: { plan_id: planId },
-        select: schema
-      });
-    } else {
-      return prisma.userPlan.findMany({ select: schema });
-    }
+  static async getAll(): Promise<NormalizedUserPlan[]> {
+    return prisma.userPlan.findMany({ select: schema });
   }
 
   static async find(query: FindQuery<UserPlan>): Promise<NormalizedUserPlan> {

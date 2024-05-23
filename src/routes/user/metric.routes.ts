@@ -5,8 +5,20 @@ import AuthenticationMiddleware from '../../middlewares/authentication.middlewar
 const router = Router();
 
 router
-  .get('/:user_id/metrics/trainerClients', AuthenticationMiddleware.authenticated, MetricController.getNumberOfClients)
-  .get('/:user_id/metrics/trainerPlans', AuthenticationMiddleware.authenticated, MetricController.getNumberOfTrainingPlansByTrainer)
-  .get('/:user_id/metrics/clientPlans', AuthenticationMiddleware.authenticated, MetricController.getNumberOfTrainingPlansByClient);
+  .get(
+    '/:user_id/metrics/trainerClients',
+    AuthenticationMiddleware.authenticated,
+    MetricController.getNumberOfClients
+  )
+  .get(
+    '/:user_id/metrics/trainerPlans',
+    AuthenticationMiddleware.authenticated,
+    MetricController.getNumberOfTrainingPlansByTrainer
+  )
+  .get(
+    '/:user_id/metrics/clientPlans',
+    AuthenticationMiddleware.authenticated,
+    MetricController.getNumberOfTrainingPlansByClient
+  );
 
 export default router;
