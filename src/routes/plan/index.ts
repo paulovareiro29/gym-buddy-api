@@ -9,7 +9,11 @@ router
   .use('/', planExercise)
   .get('/', AuthenticationMiddleware.authenticated, TrainingPlanController.getAll)
   .get('/:id', AuthenticationMiddleware.authenticated, TrainingPlanController.find)
-  .get('/creatorId/:creatorId', AuthenticationMiddleware.authenticated, TrainingPlanController.findByCreator)
+  .get(
+    '/creatorId/:creatorId',
+    AuthenticationMiddleware.authenticated,
+    TrainingPlanController.findByCreator
+  )
   .post(
     '/',
     AuthenticationMiddleware.authenticated,
