@@ -17,6 +17,22 @@ export default class TrainingPlanService {
     });
   }
 
+  static async findByCreator(creatorId: string): Promise<NormalizedTrainingPlan[]> {
+    try {
+      const trainingPlans = await prisma.trainingPlan.findMany({
+        where: {
+          creator_id: creatorId
+        },
+        select: schema
+      });
+
+      return trainingPlans;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
   static async create(data: CreateTrainingPlan): Promise<NormalizedTrainingPlan> {
     return prisma.trainingPlan.create({
       data,

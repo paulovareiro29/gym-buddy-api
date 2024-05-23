@@ -3,6 +3,7 @@ import TrainingPlanService from '../../services/trainingPlan';
 import {
   CreateTrainingPlanRequest,
   FindTrainingPlanRequest,
+  FindTrainingPlanByCreatorRequest,
   PatchTrainingPlanRequest
 } from './types';
 import { handlePrismaError } from '../../lib/handle-prisma-error';
@@ -23,6 +24,22 @@ export default class TrainingPlanController {
     }
 
     return response.success({ data: { trainingPlan } });
+  }
+
+  static async findByCreator(request: Request, response: Response) {
+    const { creatorId } = request.params as any as FindTrainingPlanByCreatorRequest;
+
+    try {
+      const trainingPlan = await TrainingPlanService.findByCreator(creatorId);
+
+      if (!trainingPlan) {
+        return response.notfound();
+      }
+
+      return response.success({ data: { trainingPlan } });
+    } catch (error) {
+      return response.error(handlePrismaError(error));
+    }
   }
 
   static async create(request: Request, response: Response) {
