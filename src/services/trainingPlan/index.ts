@@ -6,20 +6,20 @@ import schema from './schema';
 const prisma = new PrismaClient();
 
 export default class TrainingPlanService {
-  static async getAll(): Promise<NormalizedTrainingPlan[]> {
-    return prisma.trainingPlan.findMany({ select: schema });
+   static async getAll(creatorId?: string): Promise<NormalizedTrainingPlan[]> {
+    if (creatorId) {
+      return prisma.trainingPlan.findMany({
+        where: { creator_id: creatorId },
+        select: schema
+      });
+    } else {
+      return prisma.trainingPlan.findMany({ select: schema });
+    }
   }
 
   static async find(query: FindQuery<TrainingPlan>): Promise<NormalizedTrainingPlan> {
     return prisma.trainingPlan.findFirst({
       where: query,
-      select: schema
-    });
-  }
-
-  static async findByCreator(creatorId: string): Promise<NormalizedTrainingPlan[]> {
-    return prisma.trainingPlan.findMany({
-      where: { creator_id: creatorId },
       select: schema
     });
   }

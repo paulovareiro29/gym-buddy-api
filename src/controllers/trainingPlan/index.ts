@@ -9,8 +9,10 @@ import {
 import { handlePrismaError } from '../../lib/handle-prisma-error';
 
 export default class TrainingPlanController {
-  static async getAll(_: Request, response: Response) {
-    const trainingPlans = await TrainingPlanService.getAll();
+  static async getAll(request: Request, response: Response) {
+    const { creatorId } = request.query;
+    const trainingPlans = await TrainingPlanService.getAll(creatorId as string); 
+
     return response.success({ data: { trainingPlans } });
   }
 
@@ -24,22 +26,6 @@ export default class TrainingPlanController {
     }
 
     return response.success({ data: { trainingPlan } });
-  }
-
-  static async findByCreator(request: Request, response: Response) {
-    const { creatorId } = request.params as any as FindTrainingPlanByCreatorRequest;
-
-    try {
-      const trainingPlan = await TrainingPlanService.findByCreator(creatorId);
-
-      if (!trainingPlan) {
-        return response.notfound();
-      }
-
-      return response.success({ data: { trainingPlan } });
-    } catch (error) {
-      return response.error(handlePrismaError(error));
-    }
   }
 
   static async create(request: Request, response: Response) {
