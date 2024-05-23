@@ -10,8 +10,8 @@ import { handlePrismaError } from '../../lib/handle-prisma-error';
 
 export default class TrainingPlanController {
   static async getAll(request: Request, response: Response) {
-    const { creatorId } = request.query;
-    const trainingPlans = await TrainingPlanService.getAll(creatorId as string); 
+    const { creator } = request.query;
+    const trainingPlans = await TrainingPlanService.getAll(creator as string); 
 
     return response.success({ data: { trainingPlans } });
   }
