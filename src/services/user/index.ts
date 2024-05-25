@@ -35,4 +35,33 @@ export default class UserService {
       select: schema
     });
   }
+
+  static async getMetrics(userId: string): Promise<{
+    number_of_clients: number;
+    number_of_training_plans_by_trainer: number;
+    number_of_training_plans_by_client: number;
+  }> {
+
+    const today = new Date();
+    
+    const [number_of_clients, number_of_training_plans_by_trainer, number_of_training_plans_by_client] = await Promise.all([
+      prisma.contract.count({
+        where: {
+          provider_id: userId,
+          end_date: {
+            gte: today
+          }
+        }
+      }),
+      prisma.trainingPlan.count({ where: { creator_id: userId } }),
+      prisma.userPlan.count({ where: { user_id: userId } }),
+    ]);
+
+    return {
+      number_of_clients,
+      number_of_training_plans_by_trainer,
+      number_of_training_plans_by_client,
+    };
+  }
+
 }

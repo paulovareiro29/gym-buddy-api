@@ -36,4 +36,19 @@ export default class UserController {
       return response.error(handlePrismaError(err));
     }
   }
+
+  static async getMetrics(request: Request, response: Response) {
+    const { id } = request.params;
+
+    if (!id) {
+      return response.status(400).json({ error: 'Trainer or Client ID are required' });
+    }
+
+    try {
+      const metrics = await UserService.getMetrics(id as string);
+      return response.success({ data: metrics });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
+  }
 }
