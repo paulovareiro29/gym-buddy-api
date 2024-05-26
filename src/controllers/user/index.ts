@@ -2,6 +2,9 @@ import { Request, Response } from 'express';
 import UserService from '../../services/user';
 import { FindUserRequest, PatchUserRequest } from './types';
 import { handlePrismaError } from '../../lib/handle-prisma-error';
+import ContractService from '../../services/contract';
+import TrainingPlanService from '../../services/trainingPlan';
+import UserPlanService from '../../services/user/plan';
 
 export default class UserController {
   static async getAll(_: Request, response: Response) {
@@ -37,7 +40,8 @@ export default class UserController {
     }
   }
 
-  static async getMetrics(request: Request, response: Response) {
+
+   static async getMetrics(request: Request, response: Response) {
     const { id } = request.params;
 
     if (!id) {
@@ -45,8 +49,11 @@ export default class UserController {
     }
 
     try {
-      const metrics = await UserService.getMetrics(id as string);
-      return response.success({ data: metrics });
+      const contractMetrics = await ContractService.getContractMetrics(id as string, {});
+      const trainingPlanMetrics = await TrainingPlanService.getTrainingPlanMetrics(id as string, {});
+      const userPlanMetrics = await UserPlanService.getUserPlanMetrics(id as string, {});
+      
+      return response.success({ data: { contractMetrics, trainingPlanMetrics, userPlanMetrics } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }

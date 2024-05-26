@@ -31,4 +31,24 @@ export default class TrainingPlanService {
       select: schema
     });
   }
+
+  
+  static async getTrainingPlanMetrics(creatorId: string, filters: any): Promise<{
+    number_of_associated_plans: number;
+  }> {
+    const result = await prisma.trainingPlan.aggregate({
+      _count: {
+        _all: true,
+      },
+      where: {
+        creator_id: creatorId,
+        ...filters,
+      },
+    });
+
+    const number_of_associated_plans = result._count?._all ?? 0;
+
+    return { number_of_associated_plans };
+  }
 }
+

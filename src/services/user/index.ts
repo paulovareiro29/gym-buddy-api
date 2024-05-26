@@ -36,29 +36,4 @@ export default class UserService {
     });
   }
 
-  static async getMetrics(userId: string): Promise<{
-    number_of_clients: number;
-    number_of_created_plans: number;
-    number_of_associated_plans: number;
-  }> {
-    const today = new Date();
-
-    const [number_of_clients, number_of_created_plans, number_of_associated_plans] =
-      await Promise.all([
-        prisma.contract.count({
-          where: {
-            provider_id: userId,
-            end_date: { gte: today }
-          }
-        }),
-        prisma.trainingPlan.count({ where: { creator_id: userId } }),
-        prisma.userPlan.count({ where: { user_id: userId } })
-      ]);
-
-    return {
-      number_of_clients,
-      number_of_created_plans,
-      number_of_associated_plans
-    };
-  }
 }

@@ -40,4 +40,24 @@ export default class UserPlanService {
       select: schema
     });
   }
+
+ 
+  static async getUserPlanMetrics(userId: string, filters: any): Promise<{
+    total_plans: number;
+  }> {
+    const result = await prisma.userPlan.aggregate({
+      _count: {
+        _all: true,
+      },
+      where: {
+        user_id: userId,
+        ...filters,
+      },
+    });
+
+    const total_plans = result._count?._all ?? 0;
+
+    return { total_plans };
+  }
+
 }

@@ -31,4 +31,26 @@ export default class ContractService {
       select: schema
     });
   }
+
+  static async getContractMetrics(providerId: string, filters: any): Promise<{
+    number_of_contracts: number;
+  }> {
+    const today = new Date();
+
+    const result = await prisma.contract.aggregate({
+      _count: {
+        _all: true,
+      },
+      where: {
+        provider_id: providerId,
+        ...filters,
+        end_date: { gte: today },
+      },
+    });
+
+    const number_of_contracts = result._count?._all ?? 0;
+
+    return { number_of_contracts };
+  }
+
 }
