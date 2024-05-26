@@ -41,23 +41,14 @@ export default class UserPlanService {
     });
   }
 
- 
-  static async getUserPlanMetrics(userId: string, filters: any): Promise<{
-    total_plans: number;
-  }> {
+  static async count(filters: any): Promise<{ number_of_associated_plans: number }> {
     const result = await prisma.userPlan.aggregate({
-      _count: {
-        _all: true,
-      },
-      where: {
-        user_id: userId,
-        ...filters,
-      },
+      _count: { _all: true },
+      where: { ...filters }
     });
+    // eslint-disable-next-line no-underscore-dangle
+    const number_of_associated_plans = result._count?._all ?? 0;
 
-    const total_plans = result._count?._all ?? 0;
-
-    return { total_plans };
+    return { number_of_associated_plans };
   }
-
 }

@@ -32,23 +32,14 @@ export default class TrainingPlanService {
     });
   }
 
-  
-  static async getTrainingPlanMetrics(creatorId: string, filters: any): Promise<{
-    number_of_associated_plans: number;
-  }> {
+  static async count(filters: any): Promise<{ number_of_created_plans: number }> {
     const result = await prisma.trainingPlan.aggregate({
-      _count: {
-        _all: true,
-      },
-      where: {
-        creator_id: creatorId,
-        ...filters,
-      },
+      _count: { _all: true },
+      where: { ...filters }
     });
+    // eslint-disable-next-line no-underscore-dangle
+    const number_of_created_plans = result._count?._all ?? 0;
 
-    const number_of_associated_plans = result._count?._all ?? 0;
-
-    return { number_of_associated_plans };
+    return { number_of_created_plans };
   }
 }
-

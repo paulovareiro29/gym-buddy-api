@@ -40,8 +40,7 @@ export default class UserController {
     }
   }
 
-
-   static async getMetrics(request: Request, response: Response) {
+  static async getMetrics(request: Request, response: Response) {
     const { id } = request.params;
 
     if (!id) {
@@ -49,11 +48,22 @@ export default class UserController {
     }
 
     try {
-      const contractMetrics = await ContractService.getContractMetrics(id as string, {});
-      const trainingPlanMetrics = await TrainingPlanService.getTrainingPlanMetrics(id as string, {});
-      const userPlanMetrics = await UserPlanService.getUserPlanMetrics(id as string, {});
-      
-      return response.success({ data: { contractMetrics, trainingPlanMetrics, userPlanMetrics } });
+      const contractMetrics = await ContractService.count({
+        provider_id: id as string,
+        end_date: { gte: new Date() }
+      });
+
+      const trainingPlanMetrics = await TrainingPlanService.count({ creator_id: id as string });
+
+      const userPlanMetrics = await UserPlanService.count({ user_id: id as string });
+
+      return response.success({
+        data: {
+          number_of_contracts: contractMetrics.number_of_contracts,
+          number_of_created_plans: trainingPlanMetrics.number_of_created_plans,
+          number_of_associated_plans: userPlanMetrics.number_of_associated_plans
+        }
+      });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
