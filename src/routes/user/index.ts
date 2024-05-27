@@ -8,6 +8,7 @@ router
   .use('/', plans)
   .get('/', AuthenticationMiddleware.authenticated, UserController.getAll)
   .get('/:id', AuthenticationMiddleware.authenticated, UserController.find)
+  .get('/:id/metrics', AuthenticationMiddleware.authenticated, UserController.getMetrics)
   .put('/:id', AuthenticationMiddleware.authenticated, UserController.patch);
 
 export default router;

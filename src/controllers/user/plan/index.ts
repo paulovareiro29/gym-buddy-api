@@ -14,7 +14,6 @@ export default class UserPlanController {
     const userPlans = await UserPlanService.getAll();
     return response.success({ data: { userPlans } });
   }
-
   static async find(request: Request, response: Response) {
     const { user_id, plan_id } = request.params as any as FindUserPlanRequest;
 
