@@ -6,8 +6,11 @@ import schema from './schema';
 const prisma = new PrismaClient();
 
 export default class ContractService {
-  static async getAll(): Promise<NormalizedContract[]> {
-    return prisma.contract.findMany({ select: schema });
+  static async getAll(filters: Record<string, any>): Promise<NormalizedContract[]> {
+    return prisma.contract.findMany({
+      where: filters,
+      select: schema
+    });
   }
 
   static async find(query: FindQuery<Contract>): Promise<NormalizedContract | null> {
