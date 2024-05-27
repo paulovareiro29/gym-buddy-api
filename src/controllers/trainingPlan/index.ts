@@ -8,9 +8,20 @@ import {
 import { handlePrismaError } from '../../lib/handle-prisma-error';
 
 export default class TrainingPlanController {
-  static async getAll(_: Request, response: Response) {
-    const trainingPlans = await TrainingPlanService.getAll();
-    return response.success({ data: { trainingPlans } });
+  static async getAll(request: Request, response: Response) {
+    const { creator_id } = request.query as { creator_id?: string };
+
+    const filter: Record<string, any> = {};
+    if (creator_id) {
+      filter.creator_id = creator_id;
+    }
+
+    try {
+      const trainingPlans = await TrainingPlanService.getAll(filter);
+      return response.success({ data: { trainingPlans } });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
   }
 
   static async find(request: Request, response: Response) {

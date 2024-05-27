@@ -6,8 +6,11 @@ import schema from './schema';
 const prisma = new PrismaClient();
 
 export default class TrainingPlanService {
-  static async getAll(): Promise<NormalizedTrainingPlan[]> {
-    return prisma.trainingPlan.findMany({ select: schema });
+  static async getAll(filters: Record<string, any>): Promise<NormalizedTrainingPlan[]> {
+    return prisma.trainingPlan.findMany({
+      where: filters,
+      select: schema
+    });
   }
 
   static async find(query: FindQuery<TrainingPlan>): Promise<NormalizedTrainingPlan> {

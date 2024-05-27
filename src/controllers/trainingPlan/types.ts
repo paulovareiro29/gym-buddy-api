@@ -1,7 +1,6 @@
 export interface FindTrainingPlanRequest {
   id: string;
 }
-
 export interface CreateTrainingPlanRequest {
   name: string;
   creator_id: string;
