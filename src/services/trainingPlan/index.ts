@@ -32,14 +32,12 @@ export default class TrainingPlanService {
     });
   }
 
-  static async count(filters: any): Promise<{ number_of_created_plans: number }> {
+  static async count(filters: any): Promise<number> {
     const result = await prisma.trainingPlan.aggregate({
       _count: { _all: true },
-      where: { ...filters }
+      where: filters
     });
     // eslint-disable-next-line no-underscore-dangle
-    const number_of_created_plans = result._count?._all ?? 0;
-
-    return { number_of_created_plans };
+    return result._count?._all ?? 0;
   }
 }

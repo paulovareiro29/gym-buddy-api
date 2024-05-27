@@ -44,13 +44,15 @@ export default class UserController {
     const { id } = request.params;
 
     if (!id) {
-      return response.status(400).json({ error: 'Trainer or Client ID are required' });
+      return response.badrequest({ errors: { id: 'Trainer or Client ID are required' } });
     }
 
     try {
+      const today = new Date();
+
       const contractMetrics = await ContractService.count({
         provider_id: id as string,
-        end_date: { gte: new Date() }
+        end_date: { gte: today }
       });
 
       const trainingPlanMetrics = await TrainingPlanService.count({ creator_id: id as string });
@@ -59,9 +61,9 @@ export default class UserController {
 
       return response.success({
         data: {
-          number_of_contracts: contractMetrics.number_of_contracts,
-          number_of_created_plans: trainingPlanMetrics.number_of_created_plans,
-          number_of_associated_plans: userPlanMetrics.number_of_associated_plans
+          number_of_contracts: contractMetrics,
+          number_of_created_plans: trainingPlanMetrics,
+          number_of_associated_plans: userPlanMetrics
         }
       });
     } catch (err) {

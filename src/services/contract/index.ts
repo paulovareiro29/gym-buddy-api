@@ -32,19 +32,13 @@ export default class ContractService {
     });
   }
 
-  static async count(filters: any): Promise<{ number_of_contracts: number }> {
-    const today = new Date();
-
+  static async count(filters: any): Promise<number> {
     const result = await prisma.contract.aggregate({
       _count: { _all: true },
-      where: {
-        ...filters,
-        end_date: { gte: today }
-      }
+      where: filters
     });
     // eslint-disable-next-line no-underscore-dangle
-    const number_of_contracts = result._count?._all ?? 0;
-
-    return { number_of_contracts };
+    return result._count?._all ?? 0;
   }
+
 }
