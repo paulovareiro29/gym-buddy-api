@@ -44,7 +44,7 @@ export default class UserPlanService {
   static async count(filters: any): Promise<number> {
     const result = await prisma.userPlan.aggregate({
       _count: { _all: true },
-      where: filters 
+      where: filters
     });
     // eslint-disable-next-line no-underscore-dangle
     return result._count?._all ?? 0;

@@ -40,5 +40,4 @@ export default class ContractService {
     // eslint-disable-next-line no-underscore-dangle
     return result._count?._all ?? 0;
   }
-
 }
