@@ -6,9 +6,20 @@ import UserService from '../../services/user';
 import ContractCategoryService from '../../services/contractCategories';
 
 export default class ContractController {
-  static async getAll(_: Request, response: Response) {
-    const contracts = await ContractService.getAll();
-    return response.success({ data: { contracts } });
+  static async getAll(request: Request, response: Response) {
+    const { provider_id } = request.query as { provider_id?: string };
+
+    const filter: Record<string, any> = {};
+    if (provider_id) {
+      filter.provider_id = provider_id;
+    }
+
+    try {
+      const contracts = await ContractService.getAll(filter);
+      return response.success({ data: { contracts } });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
   }
 
   static async find(request: Request, response: Response) {
