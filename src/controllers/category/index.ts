@@ -56,7 +56,7 @@ export default class CategoryController {
     try {
       const category = await CategoryService.delete(id);
 
-      if(!category) {
+      if (!category) {
         return response.notfound({ errors: { name: 'Category not found' } });
       }
 

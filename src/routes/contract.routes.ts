@@ -9,5 +9,10 @@ router
   .get('/:id', AuthenticationMiddleware.authenticated, ContractController.find)
   .post('/', AuthenticationMiddleware.authenticated, ContractController.create)
   .put('/:id', AuthenticationMiddleware.authenticated, ContractController.patch)
-  .delete('/:id', AuthenticationMiddleware.authenticated, AuthenticationMiddleware.authorized(['admin']), ContractController.delete);
+  .delete(
+    '/:id',
+    AuthenticationMiddleware.authenticated,
+    AuthenticationMiddleware.authorized(['admin']),
+    ContractController.delete
+  );
 export default router;

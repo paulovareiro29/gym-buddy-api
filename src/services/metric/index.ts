@@ -7,9 +7,9 @@ const prisma = new PrismaClient();
 
 export default class MetricService {
   static async getAll(): Promise<NormalizedMetric[]> {
-    return prisma.metric.findMany({ 
+    return prisma.metric.findMany({
       where: { deleted_on: null },
-      select: schema 
+      select: schema
     });
   }
 
@@ -40,9 +40,7 @@ export default class MetricService {
   static async delete(id: string): Promise<Metric> {
     return prisma.metric.update({
       where: { id },
-      data: {
-        deleted_on: new Date()
-      }
+      data: { deleted_on: new Date() }
     });
   }
 }

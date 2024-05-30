@@ -44,9 +44,7 @@ export default class ContractService {
   static async delete(id: string): Promise<NormalizedContract> {
     return prisma.contract.update({
       where: { id },
-      data: {
-        deleted_on: new Date()
-      },
+      data: { deleted_on: new Date() },
       select: schema
     });
   }

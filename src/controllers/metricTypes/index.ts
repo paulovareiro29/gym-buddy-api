@@ -55,8 +55,8 @@ export default class MetricTypesController {
 
     try {
       const metricType = await MetricTypesService.delete(id);
-      
-      if(!metricType) {
+
+      if (!metricType) {
         return response.notfound({ errors: { name: 'Metric Type not found' } });
       }
       return response.success({ data: { metricType } });

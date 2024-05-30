@@ -121,14 +121,13 @@ export default class ContractController {
     }
   }
 
-
   static async delete(request: Request, response: Response) {
     const { id } = request.params as any as FindContractRequest;
 
     try {
       const contract = await ContractService.delete(id);
 
-      if(!contract){
+      if (!contract) {
         return response.notfound({ errors: { name: 'Contract not found' } });
       }
 

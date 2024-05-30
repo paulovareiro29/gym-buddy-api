@@ -19,8 +19,9 @@ export default class MachineController {
 
     const machine = await MachineService.find({ id });
 
-    if (!machine) 
-      return response.notfound({ errors: { name: 'Machine not found' } }); 
+    if (!machine) {
+      return response.notfound({ errors: { name: 'Machine not found' } });
+    }
 
     return response.success({ data: { machine } });
   }

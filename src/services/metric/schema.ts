@@ -7,7 +7,7 @@ const user = {
 const type = {
   id: true,
   name: true
-}
+};
 
 export default {
   id: true,

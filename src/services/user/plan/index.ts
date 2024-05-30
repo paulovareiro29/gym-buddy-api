@@ -9,7 +9,7 @@ export default class UserPlanService {
   static async getAll(): Promise<NormalizedUserPlan[]> {
     return prisma.userPlan.findMany({
       where: { deleted_on: null },
-      select: schema 
+      select: schema
     });
   }
 
@@ -64,9 +64,7 @@ export default class UserPlanService {
           plan_id
         }
       },
-      data: {
-        deleted_on: new Date()
-      },
+      data: { deleted_on: new Date() },
       select: schema
     });
   }

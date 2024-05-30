@@ -8,15 +8,15 @@ const prisma = new PrismaClient();
 
 export default class UserService {
   static async getAll(): Promise<NormalizedUser[]> {
-    return prisma.user.findMany({ 
+    return prisma.user.findMany({
       where: { deleted_on: null },
-      select: schema 
+      select: schema
     });
   }
 
   static async find(query: FindQuery<User>): Promise<NormalizedUser> {
     return prisma.user.findFirst({
-      where:{ 
+      where: {
         ...query,
         deleted_on: null
       },
@@ -45,9 +45,7 @@ export default class UserService {
   static async delete(id: string): Promise<NormalizedUser> {
     return prisma.user.update({
       where: { id },
-      data: {
-        deleted_on: new Date()
-      },
+      data: { deleted_on: new Date() },
       select: schema
     });
   }

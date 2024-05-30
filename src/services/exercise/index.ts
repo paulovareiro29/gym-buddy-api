@@ -7,8 +7,9 @@ const prisma = new PrismaClient();
 export default class ExerciseService {
   static async getAll(): Promise<NormalizedExercise[]> {
     return prisma.exercise.findMany({
-      where: { deleted_on: null},
-      select: schema });
+      where: { deleted_on: null },
+      select: schema
+    });
   }
 
   static async find(query: FindQuery<Exercise>): Promise<NormalizedExercise> {
@@ -54,9 +55,7 @@ export default class ExerciseService {
   static async delete(id: string): Promise<NormalizedExercise> {
     return prisma.exercise.update({
       where: { id },
-      data: {
-        deleted_on: new Date(),
-      },
+      data: { deleted_on: new Date() },
       select: schema
     });
   }

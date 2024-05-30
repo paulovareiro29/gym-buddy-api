@@ -123,7 +123,6 @@ export default class PlanExerciseController {
     }
   }
 
-
   static async delete(request: Request, response: Response) {
     const { id } = request.params as any as FindPlanExerciseRequest;
 

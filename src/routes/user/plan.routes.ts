@@ -22,7 +22,7 @@ router
   .delete(
     '/:user_id/plans/:plan_id',
     AuthenticationMiddleware.authenticated,
-    AuthenticationMiddleware.authorized(['trainer','admin']),
+    AuthenticationMiddleware.authorized(['trainer', 'admin']),
     UserPlanController.delete
   );
 

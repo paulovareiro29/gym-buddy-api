@@ -6,14 +6,12 @@ const prisma = new PrismaClient();
 
 export default class ContractCategoryService {
   static async getAll(): Promise<ContractCategory[]> {
-    return prisma.contractCategory.findMany({
-      where: { deleted_on: null }
-    });
+    return prisma.contractCategory.findMany({ where: { deleted_on: null } });
   }
 
   static async find(query: FindQuery<ContractCategory>): Promise<ContractCategory | null> {
     return prisma.contractCategory.findFirst({
-      where:{
+      where: {
         ...query,
         deleted_on: null
       }
@@ -32,9 +30,9 @@ export default class ContractCategoryService {
   }
 
   static async delete(id: string): Promise<ContractCategory> {
-    return prisma.contractCategory.update({ 
+    return prisma.contractCategory.update({
       where: { id },
-      data: { deleted_on: new Date() } 
+      data: { deleted_on: new Date() }
     });
   }
 }

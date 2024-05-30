@@ -23,7 +23,7 @@ router
     AuthenticationMiddleware.authorized(['admin']),
     PlanExerciseController.patch
   )
-   .delete(
+  .delete(
     '/:plan_id/exercises/:id',
     AuthenticationMiddleware.authenticated,
     AuthenticationMiddleware.authorized(['admin']),

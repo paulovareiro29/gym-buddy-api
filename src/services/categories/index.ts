@@ -10,7 +10,7 @@ export default class CategoriesService {
   }
 
   static async find(query: FindQuery<Category>): Promise<Category> {
-    return prisma.category.findFirst({ 
+    return prisma.category.findFirst({
       where: {
         ...query,
         deleted_on: null
@@ -30,7 +30,7 @@ export default class CategoriesService {
   }
 
   static async delete(id: string): Promise<Category> {
-    return prisma.category.update({ 
+    return prisma.category.update({
       where: { id },
       data: { deleted_on: new Date() }
     });

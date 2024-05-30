@@ -44,9 +44,7 @@ export default class TrainingPlanService {
   static async delete(id: string): Promise<NormalizedTrainingPlan> {
     return prisma.trainingPlan.update({
       where: { id },
-      data: {
-        deleted_on: new Date()
-      },
+      data: { deleted_on: new Date() },
       select: schema
     });
   }

@@ -80,7 +80,7 @@ export default class UserPlanController {
     try {
       const userPlan = await UserPlanService.delete(user_id, plan_id);
 
-      if(!userPlan) {
+      if (!userPlan) {
         return response.notfound({ errors: { name: 'User Plan not found' } });
       }
 

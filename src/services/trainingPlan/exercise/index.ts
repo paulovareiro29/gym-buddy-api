@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 export default class PlanExerciseService {
   static async getAll(): Promise<NormalizedPlanExercise[]> {
-    return prisma.planExercise.findMany({ 
+    return prisma.planExercise.findMany({
       where: { deleted_on: null },
       select: schema
     });
@@ -48,9 +48,7 @@ export default class PlanExerciseService {
   static async delete(id: string): Promise<NormalizedPlanExercise> {
     return prisma.planExercise.update({
       where: { id },
-      data: {
-        deleted_on: new Date()
-      },
+      data: { deleted_on: new Date() },
       select: schema
     });
   }

@@ -6,9 +6,9 @@ const prisma = new PrismaClient();
 
 export default class MachineService {
   static async getAll(): Promise<NormalizedMachine[]> {
-    return prisma.machine.findMany({ 
+    return prisma.machine.findMany({
       where: { deleted_on: null },
-      select: schema 
+      select: schema
     });
   }
 
@@ -48,9 +48,7 @@ export default class MachineService {
   static async delete(id: string): Promise<NormalizedMachine> {
     return prisma.machine.update({
       where: { id },
-      data: {
-        deleted_on: new Date(),
-      },
+      data: { deleted_on: new Date() },
       select: schema
     });
   }

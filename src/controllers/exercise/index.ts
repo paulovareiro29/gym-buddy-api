@@ -21,7 +21,7 @@ export default class ExerciseController {
     const exercise = await ExerciseService.find({ id });
 
     if (!exercise) {
-       return response.notfound({ errors: { name: 'Exercise not found' } });
+      return response.notfound({ errors: { name: 'Exercise not found' } });
     }
 
     return response.success({ data: { exercise } });

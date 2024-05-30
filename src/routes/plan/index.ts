@@ -24,7 +24,7 @@ router
   .delete(
     '/:id',
     AuthenticationMiddleware.authenticated,
-    AuthenticationMiddleware.authorized(['trainer','admin']),
+    AuthenticationMiddleware.authorized(['trainer', 'admin']),
     TrainingPlanController.delete
   );
 

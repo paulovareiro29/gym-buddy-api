@@ -6,9 +6,7 @@ const prisma = new PrismaClient();
 
 export default class MetricTypesService {
   static async getAll(): Promise<MetricType[]> {
-    return prisma.metricType.findMany({
-      where: { deleted_on: null }
-    });
+    return prisma.metricType.findMany({ where: { deleted_on: null } });
   }
 
   static async find(query: FindQuery<MetricType>): Promise<MetricType> {
@@ -16,7 +14,6 @@ export default class MetricTypesService {
       where: {
         ...query,
         deleted_on: null
-      
       }
     });
   }
