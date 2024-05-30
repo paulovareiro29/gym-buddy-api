@@ -7,12 +7,18 @@ const prisma = new PrismaClient();
 
 export default class PlanExerciseService {
   static async getAll(): Promise<NormalizedPlanExercise[]> {
-    return prisma.planExercise.findMany({ select: schema });
+    return prisma.planExercise.findMany({
+      where: { deleted_on: null },
+      select: schema
+    });
   }
 
   static async find(query: FindQuery<PlanExercise>): Promise<NormalizedPlanExercise> {
     return prisma.planExercise.findFirst({
-      where: query,
+      where: {
+        ...query,
+        deleted_on: null
+      },
       select: schema
     });
   }
@@ -35,6 +41,14 @@ export default class PlanExerciseService {
     return prisma.planExercise.update({
       where: { id },
       data,
+      select: schema
+    });
+  }
+
+  static async delete(id: string): Promise<NormalizedPlanExercise> {
+    return prisma.planExercise.update({
+      where: { id },
+      data: { deleted_on: new Date() },
       select: schema
     });
   }

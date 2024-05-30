@@ -8,6 +8,11 @@ router
   .get('/', AuthenticationMiddleware.authenticated, ContractController.getAll)
   .get('/:id', AuthenticationMiddleware.authenticated, ContractController.find)
   .post('/', AuthenticationMiddleware.authenticated, ContractController.create)
-  .put('/:id', AuthenticationMiddleware.authenticated, ContractController.patch);
-
+  .put('/:id', AuthenticationMiddleware.authenticated, ContractController.patch)
+  .delete(
+    '/:id',
+    AuthenticationMiddleware.authenticated,
+    AuthenticationMiddleware.authorized(['admin']),
+    ContractController.delete
+  );
 export default router;

@@ -17,5 +17,6 @@ export default {
   start_date: true,
   end_date: true,
   created_at: true,
-  updated_at: true
+  updated_at: true,
+  deleted_on: true
 };

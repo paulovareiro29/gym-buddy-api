@@ -28,7 +28,7 @@ export default class ContractController {
     const contract = await ContractService.find({ id });
 
     if (!contract) {
-      return response.notfound();
+      return response.notfound({ errors: { name: 'Contract not found' } });
     }
 
     return response.success({ data: { contract } });
@@ -114,6 +114,22 @@ export default class ContractController {
         start_date: body.start_date,
         end_date: body.end_date
       });
+
+      return response.success({ data: { contract } });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
+  }
+
+  static async delete(request: Request, response: Response) {
+    const { id } = request.params as any as FindContractRequest;
+
+    try {
+      const contract = await ContractService.delete(id);
+
+      if (!contract) {
+        return response.notfound({ errors: { name: 'Contract not found' } });
+      }
 
       return response.success({ data: { contract } });
     } catch (err) {

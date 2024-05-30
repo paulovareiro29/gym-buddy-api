@@ -18,6 +18,12 @@ router
     AuthenticationMiddleware.authenticated,
     AuthenticationMiddleware.authorized(['trainer']),
     UserPlanController.patch
+  )
+  .delete(
+    '/:user_id/plans/:plan_id',
+    AuthenticationMiddleware.authenticated,
+    AuthenticationMiddleware.authorized(['trainer', 'admin']),
+    UserPlanController.delete
   );
 
 export default router;

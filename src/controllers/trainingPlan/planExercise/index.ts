@@ -29,7 +29,7 @@ export default class PlanExerciseController {
     const planExercise = await PlanExerciseService.find({ id });
 
     if (!planExercise) {
-      return response.notfound();
+      return response.notfound({ errors: { plan_id: 'Plan Exercise not found' } });
     }
 
     return response.success({ data: { planExercise } });
@@ -116,6 +116,22 @@ export default class PlanExerciseController {
         sets: body.sets,
         day: body.day
       });
+
+      return response.success({ data: { planExercise } });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
+  }
+
+  static async delete(request: Request, response: Response) {
+    const { id } = request.params as any as FindPlanExerciseRequest;
+
+    try {
+      const planExercise = await PlanExerciseService.delete(id);
+
+      if (!planExercise) {
+        return response.notfound({ errors: { plan_id: 'Plan Exercise not found' } });
+      }
 
       return response.success({ data: { planExercise } });
     } catch (err) {

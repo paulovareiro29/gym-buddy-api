@@ -9,6 +9,11 @@ router
   .get('/', AuthenticationMiddleware.authenticated, UserController.getAll)
   .get('/:id', AuthenticationMiddleware.authenticated, UserController.find)
   .get('/:id/metrics', AuthenticationMiddleware.authenticated, UserController.getMetrics)
-  .put('/:id', AuthenticationMiddleware.authenticated, UserController.patch);
-
+  .put('/:id', AuthenticationMiddleware.authenticated, UserController.patch)
+  .delete(
+    '/:id',
+    AuthenticationMiddleware.authenticated,
+    AuthenticationMiddleware.authorized(['admin']),
+    UserController.delete
+  );
 export default router;

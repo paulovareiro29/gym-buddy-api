@@ -20,7 +20,7 @@ export default class MachineController {
     const machine = await MachineService.find({ id });
 
     if (!machine) {
-      return response.notfound();
+      return response.notfound({ errors: { name: 'Machine not found' } });
     }
 
     return response.success({ data: { machine } });
@@ -80,6 +80,22 @@ export default class MachineController {
         categories: body.categories,
         photo: body.photo
       });
+
+      return response.success({ data: { machine } });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
+  }
+
+  static async delete(request: Request, response: Response) {
+    const { id } = request.params as any as FindMachineRequest;
+
+    try {
+      const machine = await MachineService.delete(id);
+
+      if (!machine) {
+        return response.notfound({ errors: { name: 'Machine not found' } });
+      }
 
       return response.success({ data: { machine } });
     } catch (err) {

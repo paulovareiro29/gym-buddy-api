@@ -9,5 +9,6 @@ export default {
   categories: { select: category },
   photo: true,
   created_at: true,
-  updated_at: true
+  updated_at: true,
+  deleted_on: true
 };
