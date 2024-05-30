@@ -6,12 +6,17 @@ const prisma = new PrismaClient();
 
 export default class ExerciseService {
   static async getAll(): Promise<NormalizedExercise[]> {
-    return prisma.exercise.findMany({ select: schema });
+    return prisma.exercise.findMany({
+      where: { deleted_on: null},
+      select: schema });
   }
 
   static async find(query: FindQuery<Exercise>): Promise<NormalizedExercise> {
     return prisma.exercise.findFirst({
-      where: query,
+      where: {
+        ...query,
+        deleted_on: null
+      },
       select: schema
     });
   }
@@ -42,6 +47,16 @@ export default class ExerciseService {
     return prisma.exercise.update({
       where: { id },
       data: updateData,
+      select: schema
+    });
+  }
+
+  static async delete(id: string): Promise<NormalizedExercise> {
+    return prisma.exercise.update({
+      where: { id },
+      data: {
+        deleted_on: new Date(),
+      },
       select: schema
     });
   }

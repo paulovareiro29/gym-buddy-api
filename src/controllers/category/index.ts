@@ -15,7 +15,7 @@ export default class CategoryController {
     const category = await CategoryService.find({ id });
 
     if (!category) {
-      return response.notfound();
+      return response.notfound({ errors: { name: 'Category not found' } });
     }
 
     return response.success({ data: { category } });
@@ -43,6 +43,22 @@ export default class CategoryController {
 
     try {
       const category = await CategoryService.patch(id, { name: body.name });
+
+      return response.success({ data: { category } });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
+  }
+
+  static async delete(request: Request, response: Response) {
+    const { id } = request.params as any as FindCategoryRequest;
+
+    try {
+      const category = await CategoryService.delete(id);
+
+      if(!category) {
+        return response.notfound({ errors: { name: 'Category not found' } });
+      }
 
       return response.success({ data: { category } });
     } catch (err) {

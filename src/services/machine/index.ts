@@ -6,12 +6,18 @@ const prisma = new PrismaClient();
 
 export default class MachineService {
   static async getAll(): Promise<NormalizedMachine[]> {
-    return prisma.machine.findMany({ select: schema });
+    return prisma.machine.findMany({ 
+      where: { deleted_on: null },
+      select: schema 
+    });
   }
 
   static async find(query: FindQuery<Machine>): Promise<NormalizedMachine> {
     return prisma.machine.findFirst({
-      where: query,
+      where: {
+        ...query,
+        deleted_on: null
+      },
       select: schema
     });
   }
@@ -34,6 +40,16 @@ export default class MachineService {
         name: data.name,
         categories: { set: data.categories?.map((categoryId) => ({ id: categoryId })) },
         photo: data.photo
+      },
+      select: schema
+    });
+  }
+
+  static async delete(id: string): Promise<NormalizedMachine> {
+    return prisma.machine.update({
+      where: { id },
+      data: {
+        deleted_on: new Date(),
       },
       select: schema
     });

@@ -23,7 +23,7 @@ export default class UserPlanController {
     });
 
     if (!userPlan) {
-      return response.notfound({});
+      return response.notfound({ errors: { name: 'User Plan not found' } });
     }
 
     return response.success({ data: { userPlan } });
@@ -67,6 +67,22 @@ export default class UserPlanController {
         start_date: body.start_date,
         end_date: body.end_date
       });
+
+      return response.success({ data: { userPlan } });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
+  }
+
+  static async delete(request: Request, response: Response) {
+    const { user_id, plan_id } = request.params as any as FindUserPlanRequest;
+
+    try {
+      const userPlan = await UserPlanService.delete(user_id, plan_id);
+
+      if(!userPlan) {
+        return response.notfound({ errors: { name: 'User Plan not found' } });
+      }
 
       return response.success({ data: { userPlan } });
     } catch (err) {

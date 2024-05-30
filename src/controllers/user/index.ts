@@ -18,7 +18,7 @@ export default class UserController {
     const user = await UserService.find({ id });
 
     if (!user) {
-      return response.notfound();
+      return response.notfound({ errors: { name: 'User not found' } });
     }
 
     return response.success({ data: { user } });
@@ -66,6 +66,22 @@ export default class UserController {
           number_of_associated_plans: userPlanMetrics
         }
       });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
+  }
+
+  static async delete(request: Request, response: Response) {
+    const { id } = request.params as any as FindUserRequest;
+
+    try {
+      const user = await UserService.delete(id);
+
+      if (!user) {
+        return response.notfound({ errors: { name: 'User not found' } });
+      }
+
+      return response.success({ data: { user } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }

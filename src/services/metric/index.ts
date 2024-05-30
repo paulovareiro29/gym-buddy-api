@@ -7,12 +7,18 @@ const prisma = new PrismaClient();
 
 export default class MetricService {
   static async getAll(): Promise<NormalizedMetric[]> {
-    return prisma.metric.findMany({ select: schema });
+    return prisma.metric.findMany({ 
+      where: { deleted_on: null },
+      select: schema 
+    });
   }
 
   static async find(query: FindQuery<Metric>): Promise<NormalizedMetric> {
     return prisma.metric.findFirst({
-      where: query,
+      where: {
+        ...query,
+        deleted_on: null
+      },
       select: schema
     });
   }
@@ -28,6 +34,15 @@ export default class MetricService {
     return prisma.metric.update({
       where: { id },
       data
+    });
+  }
+
+  static async delete(id: string): Promise<Metric> {
+    return prisma.metric.update({
+      where: { id },
+      data: {
+        deleted_on: new Date()
+      }
     });
   }
 }

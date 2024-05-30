@@ -38,5 +38,6 @@ export default {
   rest_between_sets: true,
   day: true,
   created_at: true,
-  updated_at: true
+  updated_at: true,
+  deleted_on: true
 };

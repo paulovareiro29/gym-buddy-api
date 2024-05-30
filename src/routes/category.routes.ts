@@ -18,6 +18,12 @@ router
     AuthenticationMiddleware.authenticated,
     AuthenticationMiddleware.authorized(['admin']),
     CategoryController.patch
+  )
+  .delete(
+    '/:id',
+    AuthenticationMiddleware.authenticated,
+    AuthenticationMiddleware.authorized(['admin']),
+    CategoryController.delete
   );
 
 export default router;

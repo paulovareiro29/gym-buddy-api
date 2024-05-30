@@ -18,6 +18,12 @@ router
     AuthenticationMiddleware.authenticated,
     AuthenticationMiddleware.authorized(['admin']),
     MachineController.patch
+  )
+  .delete(
+    '/:id',
+    AuthenticationMiddleware.authenticated,
+    AuthenticationMiddleware.authorized(['admin']),
+    MachineController.delete
   );
 
 export default router;

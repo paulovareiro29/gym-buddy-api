@@ -22,6 +22,12 @@ router
     AuthenticationMiddleware.authenticated,
     AuthenticationMiddleware.authorized(['admin']),
     PlanExerciseController.patch
+  )
+   .delete(
+    '/:plan_id/exercises/:id',
+    AuthenticationMiddleware.authenticated,
+    AuthenticationMiddleware.authorized(['admin']),
+    PlanExerciseController.delete
   );
 
 export default router;

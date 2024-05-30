@@ -19,7 +19,7 @@ export default class ContractCategoryController {
     const contractCategory = await ContractCategoryService.find({ id });
 
     if (!contractCategory) {
-      return response.notfound();
+      return response.notfound({ errors: { name: 'Contract Category not found' } });
     }
 
     return response.success({ data: { contractCategory } });
@@ -47,6 +47,22 @@ export default class ContractCategoryController {
 
     try {
       const contractCategory = await ContractCategoryService.patch(id, { name: body.name });
+
+      return response.success({ data: { contractCategory } });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
+  }
+
+  static async delete(request: Request, response: Response) {
+    const { id } = request.params as any as FindContractCategoriesRequest;
+
+    try {
+      const contractCategory = await ContractCategoryService.delete(id);
+
+      if (!contractCategory) {
+        return response.notfound({ errors: { name: 'Contract Category not found' } });
+      }
 
       return response.success({ data: { contractCategory } });
     } catch (err) {

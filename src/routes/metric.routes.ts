@@ -18,6 +18,12 @@ router
     AuthenticationMiddleware.authenticated,
     AuthenticationMiddleware.authorized(['admin', 'trainer']),
     MetricController.patch
+  )
+  .delete(
+    '/:id',
+    AuthenticationMiddleware.authenticated,
+    AuthenticationMiddleware.authorized(['admin', 'trainer']),
+    MetricController.delete
   );
 
 export default router;

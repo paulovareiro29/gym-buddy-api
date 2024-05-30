@@ -6,11 +6,19 @@ const prisma = new PrismaClient();
 
 export default class MetricTypesService {
   static async getAll(): Promise<MetricType[]> {
-    return prisma.metricType.findMany();
+    return prisma.metricType.findMany({
+      where: { deleted_on: null }
+    });
   }
 
   static async find(query: FindQuery<MetricType>): Promise<MetricType> {
-    return prisma.metricType.findFirst({ where: query });
+    return prisma.metricType.findFirst({
+      where: {
+        ...query,
+        deleted_on: null
+      
+      }
+    });
   }
 
   static async create(data: CreateMetricTypes): Promise<MetricType> {
@@ -21,6 +29,13 @@ export default class MetricTypesService {
     return prisma.metricType.update({
       where: { id },
       data
+    });
+  }
+
+  static async delete(id: string): Promise<MetricType> {
+    return prisma.metricType.update({
+      where: { id },
+      data: { deleted_on: new Date() }
     });
   }
 }

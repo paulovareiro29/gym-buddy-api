@@ -12,5 +12,6 @@ export default {
   register_code: true,
   activated: true,
   created_at: true,
-  updated_at: true
+  updated_at: true,
+  deleted_on: true
 };

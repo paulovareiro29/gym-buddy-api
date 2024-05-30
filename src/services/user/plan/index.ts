@@ -7,12 +7,18 @@ const prisma = new PrismaClient();
 
 export default class UserPlanService {
   static async getAll(): Promise<NormalizedUserPlan[]> {
-    return prisma.userPlan.findMany({ select: schema });
+    return prisma.userPlan.findMany({
+      where: { deleted_on: null },
+      select: schema 
+    });
   }
 
   static async find(query: FindQuery<UserPlan>): Promise<NormalizedUserPlan> {
     return prisma.userPlan.findFirst({
-      where: query,
+      where: {
+        ...query,
+        deleted_on: null
+      },
       select: schema
     });
   }
@@ -48,5 +54,20 @@ export default class UserPlanService {
     });
     // eslint-disable-next-line no-underscore-dangle
     return result._count?._all ?? 0;
+  }
+
+  static async delete(user_id: string, plan_id: string): Promise<NormalizedUserPlan> {
+    return prisma.userPlan.update({
+      where: {
+        user_id_plan_id: {
+          user_id,
+          plan_id
+        }
+      },
+      data: {
+        deleted_on: new Date()
+      },
+      select: schema
+    });
   }
 }

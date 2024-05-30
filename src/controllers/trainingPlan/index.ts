@@ -30,7 +30,7 @@ export default class TrainingPlanController {
     const trainingPlan = await TrainingPlanService.find({ id });
 
     if (!trainingPlan) {
-      return response.notfound();
+      return response.notfound({ errors: { name: 'Training Plan not found' } });
     }
 
     return response.success({ data: { trainingPlan } });
@@ -62,6 +62,22 @@ export default class TrainingPlanController {
 
     try {
       const trainingPlan = await TrainingPlanService.patch(id, { name: body.name });
+
+      return response.success({ data: { trainingPlan } });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
+  }
+
+  static async delete(request: Request, response: Response) {
+    const { id } = request.params as any as FindTrainingPlanRequest;
+
+    try {
+      const trainingPlan = await TrainingPlanService.delete(id);
+
+      if (!trainingPlan) {
+        return response.notfound({ errors: { name: 'Training Plan not found' } });
+      }
 
       return response.success({ data: { trainingPlan } });
     } catch (err) {

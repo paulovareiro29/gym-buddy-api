@@ -17,7 +17,7 @@ export default class MetricController {
     const metric = await MetricService.find({ id });
 
     if (!metric) {
-      return response.notfound();
+      return response.notfound({ errors: { name: 'Metric not found' } });
     }
 
     return response.success({ data: { metric } });
@@ -106,6 +106,22 @@ export default class MetricController {
         value: body.value,
         date: body.date
       });
+
+      return response.success({ data: { metric } });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
+  }
+
+  static async delete(request: Request, response: Response) {
+    const { id } = request.params as any as FindMetricRequest;
+
+    try {
+      const metric = await MetricService.delete(id);
+
+      if (!metric) {
+        return response.notfound({ errors: { name: 'Metric not found' } });
+      }
 
       return response.success({ data: { metric } });
     } catch (err) {

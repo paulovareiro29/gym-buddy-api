@@ -15,7 +15,7 @@ export default class MetricTypesController {
     const metricType = await MetricTypesService.find({ id });
 
     if (!metricType) {
-      return response.notfound();
+      return response.notfound({ errors: { name: 'Metric Type not found' } });
     }
 
     return response.success({ data: { metricType } });
@@ -44,6 +44,21 @@ export default class MetricTypesController {
     try {
       const metricType = await MetricTypesService.patch(id, { name: body.name });
 
+      return response.success({ data: { metricType } });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
+  }
+
+  static async delete(request: Request, response: Response) {
+    const { id } = request.params as any as FindMetricTypesRequest;
+
+    try {
+      const metricType = await MetricTypesService.delete(id);
+      
+      if(!metricType) {
+        return response.notfound({ errors: { name: 'Metric Type not found' } });
+      }
       return response.success({ data: { metricType } });
     } catch (err) {
       return response.error(handlePrismaError(err));

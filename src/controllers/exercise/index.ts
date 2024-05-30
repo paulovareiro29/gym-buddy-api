@@ -21,7 +21,7 @@ export default class ExerciseController {
     const exercise = await ExerciseService.find({ id });
 
     if (!exercise) {
-      return response.notfound();
+       return response.notfound({ errors: { name: 'Exercise not found' } });
     }
 
     return response.success({ data: { exercise } });
@@ -103,6 +103,22 @@ export default class ExerciseController {
         categories: body.categories,
         photo: body.photo
       });
+
+      return response.success({ data: { exercise } });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
+  }
+
+  static async delete(request: Request, response: Response) {
+    const { id } = request.params as any as FindExerciseRequest;
+
+    try {
+      const exercise = await ExerciseService.delete(id);
+
+      if (!exercise) {
+        return response.notfound({ errors: { name: 'Exercise not found' } });
+      }
 
       return response.success({ data: { exercise } });
     } catch (err) {

@@ -9,5 +9,6 @@ export default {
   name: true,
   creator: { select: user },
   created_at: true,
-  updated_at: true
+  updated_at: true,
+  deleted_on: true
 };
