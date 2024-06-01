@@ -14,6 +14,9 @@ export default class ContractController {
       filter.provider_id = provider_id;
     }
 
+    const today = new Date();
+    filter.end_date = { gte: today };
+
     try {
       const contracts = await ContractService.getAll(filter);
       return response.success({ data: { contracts } });
