@@ -43,4 +43,16 @@ export default class MetricService {
       data: { deleted_on: new Date() }
     });
   }
+
+  static async count(filters: any): Promise<number> {
+    const result = await prisma.metric.aggregate({
+      _count: { _all: true },
+      where: {
+        ...filters,
+        deleted_on: null
+      }
+    });
+    // eslint-disable-next-line no-underscore-dangle
+    return result._count?._all ?? 0;
+  }
 }

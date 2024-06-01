@@ -4,6 +4,7 @@ import { FindUserRequest, PatchUserRequest } from './types';
 import { handlePrismaError } from '../../lib/handle-prisma-error';
 import ContractService from '../../services/contract';
 import TrainingPlanService from '../../services/trainingPlan';
+import MetricService from '../../services/metric';
 import UserPlanService from '../../services/user/plan';
 
 export default class UserController {
@@ -59,11 +60,14 @@ export default class UserController {
 
       const userPlanMetrics = await UserPlanService.count({ user_id: id as string });
 
+      const userMetrics = await MetricService.count({ user_id: id as string });
+
       return response.success({
         data: {
           number_of_contracts: contractMetrics,
           number_of_created_plans: trainingPlanMetrics,
-          number_of_associated_plans: userPlanMetrics
+          number_of_associated_plans: userPlanMetrics,
+          number_of_metrics: userMetrics
         }
       });
     } catch (err) {
