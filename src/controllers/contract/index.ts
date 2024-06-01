@@ -6,13 +6,16 @@ import UserService from '../../services/user';
 import ContractCategoryService from '../../services/contractCategories';
 
 export default class ContractController {
-  static async getAll(request: Request, response: Response) {
+ static async getAll(request: Request, response: Response) {
     const { provider_id } = request.query as { provider_id?: string };
 
     const filter: Record<string, any> = {};
     if (provider_id) {
       filter.provider_id = provider_id;
     }
+
+    const today = new Date();
+    filter.end_date = { gte: today };
 
     try {
       const contracts = await ContractService.getAll(filter);
