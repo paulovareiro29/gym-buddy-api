@@ -19,6 +19,7 @@ export interface CreateUser {
 export interface UpdateUser {
   email?: string;
   name?: string;
+  address?: string;
   password?: string;
   activated?: boolean;
 }

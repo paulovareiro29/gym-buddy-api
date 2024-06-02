@@ -5,4 +5,5 @@ export interface FindUserRequest {
 export interface PatchUserRequest {
   email?: string;
   name?: string;
+  address?: string;
 }
