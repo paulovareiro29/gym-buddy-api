@@ -60,14 +60,13 @@ export default class UserPlanService {
   }
 
   static async delete(user_id: string, plan_id: string): Promise<NormalizedUserPlan> {
-    return prisma.userPlan.update({
+    return prisma.userPlan.delete({
       where: {
         user_id_plan_id: {
           user_id,
           plan_id
         }
       },
-      data: { deleted_on: new Date() },
       select: schema
     });
   }
