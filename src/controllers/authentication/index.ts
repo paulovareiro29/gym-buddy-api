@@ -114,4 +114,8 @@ export default class AuthenticationController {
       return response.error(handlePrismaError(err));
     }
   }
+
+  static async me(_: Request, response: Response) {
+    return response.success({ data: { user: response.locals.user } });
+  }
 }
