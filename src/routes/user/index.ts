@@ -8,7 +8,7 @@ router
   .use('/', plans)
   .get('/', AuthenticationMiddleware.authenticated, UserController.getAll)
   .get('/:id', AuthenticationMiddleware.authenticated, UserController.find)
-  .get('/:id/metrics', AuthenticationMiddleware.authenticated, UserController.getMetrics)
+  .get('/:id/statistics', AuthenticationMiddleware.authenticated, UserController.getStatistics)
   .put('/:id', AuthenticationMiddleware.authenticated, UserController.patch)
   .delete(
     '/:id',

@@ -41,7 +41,7 @@ export default class UserController {
     }
   }
 
-  static async getMetrics(request: Request, response: Response) {
+  static async getStatistics(request: Request, response: Response) {
     const { id } = request.params;
 
     if (!id) {
