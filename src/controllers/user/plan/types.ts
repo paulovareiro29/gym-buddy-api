@@ -6,7 +6,6 @@ export interface FindUserPlanRequest extends UserPlanRequest {
 }
 
 export interface CreateUserPlanRequest {
-  user_id: string;
   plan_id: string;
   start_date: Date;
   end_date: Date;

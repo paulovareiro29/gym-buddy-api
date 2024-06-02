@@ -8,6 +8,7 @@ export interface NormalizedTrainingPlan {
   id: string;
   name: string;
   creator: SimplifiedUser;
+  clients: SimplifiedUser[];
 }
 
 export interface CreateTrainingPlan {
