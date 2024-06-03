@@ -10,10 +10,21 @@ import { handlePrismaError } from '../../../lib/handle-prisma-error';
 import TrainingPlanService from '../../../services/trainingPlan';
 
 export default class UserPlanController {
-  static async getAll(_: Request, response: Response) {
-    const userPlans = await UserPlanService.getAll();
-    return response.success({ data: { userPlans } });
+  static async getAll(request: Request, response: Response) {
+    const userId = request.params?.user_id;
+
+    if (!userId) {
+      return response.badrequest({ errors: { user_id: 'User ID is required' } });
+    }
+
+    try {
+      const userPlans = await UserPlanService.getAll(userId);
+      return response.success({ data: { userPlans } });
+    } catch (error) {
+      return response.error(handlePrismaError(error));
+    }
   }
+
   static async find(request: Request, response: Response) {
     const { user_id, plan_id } = request.params as any as FindUserPlanRequest;
 

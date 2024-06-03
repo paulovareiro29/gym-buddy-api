@@ -11,12 +11,18 @@ import ExerciseService from '../../../services/exercise';
 import TrainingPlanService from '../../../services/trainingPlan';
 
 export default class PlanExerciseController {
-  static async getAll(_: Request, response: Response) {
+  static async getAll(request: Request, response: Response) {
+    const planId = request.params?.plan_id;
+
+    if (!planId) {
+      return response.badrequest({ errors: { plan_id: 'Plan ID is required' } });
+    }
+
     try {
-      const planExercises = await PlanExerciseService.getAll();
+      const planExercises = await PlanExerciseService.getAll(planId);
       return response.success({ data: { planExercises } });
-    } catch (err) {
-      return response.error(handlePrismaError(err));
+    } catch (error) {
+      return response.error(handlePrismaError(error));
     }
   }
 

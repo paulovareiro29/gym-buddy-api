@@ -6,9 +6,12 @@ import schema from './schema';
 const prisma = new PrismaClient();
 
 export default class PlanExerciseService {
-  static async getAll(): Promise<NormalizedPlanExercise[]> {
+  static async getAll(planId: string): Promise<NormalizedPlanExercise[]> {
     return prisma.planExercise.findMany({
-      where: { deleted_on: null },
+      where: {
+        plan_id: planId,
+        deleted_on: null
+      },
       select: schema
     });
   }
