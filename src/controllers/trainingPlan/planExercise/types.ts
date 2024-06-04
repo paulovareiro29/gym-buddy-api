@@ -12,7 +12,7 @@ export interface CreatePlanExerciseRequest {
   repetitions?: number;
   sets?: number;
   rest_between_sets?: number;
-  day?: number;
+  day?: string;
 }
 
 export interface PatchPlanExerciseRequest {
@@ -21,5 +21,5 @@ export interface PatchPlanExerciseRequest {
   repetitions?: number;
   sets?: number;
   rest_between_sets?: number;
-  day?: number;
+  day?: string;
 }

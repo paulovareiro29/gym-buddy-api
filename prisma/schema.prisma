@@ -125,7 +125,7 @@ model PlanExercise {
   repetitions       Int
   sets              Int
   rest_between_sets Int
-  day               Int
+  day               String
   created_at        DateTime @default(now())
   updated_at        DateTime @updatedAt
   deleted_on        DateTime?
