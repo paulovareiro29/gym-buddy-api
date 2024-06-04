@@ -36,7 +36,7 @@ export interface NormalizedPlanExercise {
   repetitions: number;
   sets: number;
   rest_between_sets: number;
-  day: number;
+  day: string;
 }
 
 export interface CreatePlanExercise {
@@ -45,7 +45,7 @@ export interface CreatePlanExercise {
   repetitions?: number;
   sets?: number;
   rest_between_sets?: number;
-  day?: number;
+  day?: string;
 }
 
 export interface UpdatePlanExercise {
@@ -54,5 +54,5 @@ export interface UpdatePlanExercise {
   repetitions?: number;
   sets?: number;
   rest_between_sets?: number;
-  day?: number;
+  day?: string;
 }
