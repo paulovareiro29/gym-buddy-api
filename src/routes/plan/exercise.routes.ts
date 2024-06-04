@@ -14,19 +14,19 @@ router
   .post(
     '/:plan_id/exercises',
     AuthenticationMiddleware.authenticated,
-    AuthenticationMiddleware.authorized(['admin']),
+    AuthenticationMiddleware.authorized(['admin', 'trainer']),
     PlanExerciseController.create
   )
   .put(
     '/:plan_id/exercises/:id',
     AuthenticationMiddleware.authenticated,
-    AuthenticationMiddleware.authorized(['admin']),
+    AuthenticationMiddleware.authorized(['admin', 'trainer']),
     PlanExerciseController.patch
   )
   .delete(
     '/:plan_id/exercises/:id',
     AuthenticationMiddleware.authenticated,
-    AuthenticationMiddleware.authorized(['admin']),
+    AuthenticationMiddleware.authorized(['admin', 'trainer']),
     PlanExerciseController.delete
   );
 
