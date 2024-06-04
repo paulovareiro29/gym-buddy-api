@@ -49,9 +49,8 @@ export default class PlanExerciseService {
   }
 
   static async delete(id: string): Promise<NormalizedPlanExercise> {
-    return prisma.planExercise.update({
+    return prisma.planExercise.delete({
       where: { id },
-      data: { deleted_on: new Date() },
       select: schema
     });
   }
