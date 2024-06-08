@@ -6,9 +6,19 @@ import UserService from '../../services/user';
 import MetricTypesService from '../../services/metricTypes';
 
 export default class MetricController {
-  static async getAll(_: Request, response: Response) {
-    const metrics = await MetricService.getAll();
-    return response.success({ data: { metrics } });
+  static async getAll(request: Request, response: Response) {
+    const { user_id } = request.query as { user_id?: string };
+
+    const filter: Record<string, any> = {};
+    if (user_id) {
+      filter.user_id = user_id;
+    }
+    try {
+      const metrics = await MetricService.getAll(filter);
+      return response.success({ data: { metrics } });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
   }
 
   static async find(request: Request, response: Response) {
