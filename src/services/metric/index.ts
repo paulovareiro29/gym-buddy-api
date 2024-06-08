@@ -6,9 +6,12 @@ import schema from './schema';
 const prisma = new PrismaClient();
 
 export default class MetricService {
-  static async getAll(): Promise<NormalizedMetric[]> {
+  static async getAll(filters: Record<string, any>): Promise<NormalizedMetric[]> {
     return prisma.metric.findMany({
-      where: { deleted_on: null },
+      where: {
+        ...filters,
+        deleted_on: null
+      },
       select: schema
     });
   }
