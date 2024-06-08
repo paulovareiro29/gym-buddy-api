@@ -26,7 +26,8 @@ const exercise = {
   id: true,
   name: true,
   photo: true,
-  machine: { select: machine }
+  machine: { select: machine },
+  categories: { select: category }
 };
 
 export default {
