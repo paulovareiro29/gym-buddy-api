@@ -33,7 +33,8 @@ export default class UserController {
       const user = await UserService.patch(id, {
         email: body.email,
         name: body.name,
-        address: body.address
+        address: body.address,
+        avatar: body.avatar
       });
 
       return response.success({ data: { user } });

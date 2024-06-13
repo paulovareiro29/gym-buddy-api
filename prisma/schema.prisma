@@ -20,6 +20,7 @@ model User {
   password      String?
   name          String?
   address       String?
+  avatar        String?
   register_code String
   activated     Boolean  @default(false)
   created_at    DateTime @default(now())

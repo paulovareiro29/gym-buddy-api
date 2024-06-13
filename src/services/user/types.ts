@@ -4,6 +4,7 @@ export interface NormalizedUser {
   id: string;
   email: string;
   name: string;
+  avatar: string;
   role: NormalizedRole;
   address: string;
   register_code: string;
@@ -19,6 +20,7 @@ export interface CreateUser {
 export interface UpdateUser {
   email?: string;
   name?: string;
+  avatar?: string;
   address?: string;
   password?: string;
   activated?: boolean;

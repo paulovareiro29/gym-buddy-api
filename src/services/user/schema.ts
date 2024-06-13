@@ -8,6 +8,7 @@ export default {
     }
   },
   name: true,
+  avatar: true,
   address: true,
   register_code: true,
   activated: true,

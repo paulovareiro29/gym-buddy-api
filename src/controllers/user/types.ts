@@ -6,4 +6,5 @@ export interface PatchUserRequest {
   email?: string;
   name?: string;
   address?: string;
+  avatar?: string;
 }
