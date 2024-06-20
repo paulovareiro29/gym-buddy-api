@@ -7,11 +7,18 @@ import ContractCategoryService from '../../services/contractCategories';
 
 export default class ContractController {
   static async getAll(request: Request, response: Response) {
-    const { provider_id } = request.query as { provider_id?: string };
+    const { provider_id, beneficiary_id } = request.query as {
+      provider_id?: string;
+      beneficiary_id?: string;
+    };
 
     const filter: Record<string, any> = {};
     if (provider_id) {
       filter.provider_id = provider_id;
+    }
+
+    if (beneficiary_id) {
+      filter.beneficiary_id = beneficiary_id;
     }
 
     const today = new Date();
