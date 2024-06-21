@@ -8,7 +8,7 @@ import loadCoreData from './lib/core/load-core-data';
 loadCoreData();
 
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: 5242880 }));
 app.use(cors());
 
 app.use('/api', routes);

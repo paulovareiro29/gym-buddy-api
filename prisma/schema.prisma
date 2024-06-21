@@ -20,13 +20,19 @@ model User {
   password      String?
   name          String?
   address       String?
+  avatar        String?
   register_code String
   activated     Boolean  @default(false)
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
+  deleted_on    DateTime?
   role          Role?    @relation(fields: [role_id], references: [id])
   metric        Metric[]
   creatorMetric Metric[] @relation("CreatorMetric")
+  trainingPlanCreator TrainingPlan[] @relation("TrainingCreator")
+  userPlan      UserPlan[] @relation("UserPlan")
+  beneficiaryContracts Contract[] @relation("BeneficiaryContracts")
+  providerContracts    Contract[] @relation("ProviderContracts")
 }
 
 model MetricType {
@@ -34,6 +40,7 @@ model MetricType {
   name       String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  deleted_on DateTime?
   metric     Metric[]
 }
 
@@ -46,7 +53,106 @@ model Metric {
   date       DateTime
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
+  deleted_on DateTime?
   user       User       @relation(fields: [user_id], references: [id])
   creator    User       @relation("CreatorMetric", fields: [creator_id], references: [id])
   type       MetricType @relation(fields: [type_id], references: [id])
+}
+
+model TrainingPlan {
+  id            String   @id @default(uuid())
+  name          String
+  creator_id    String
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  deleted_on    DateTime?
+  creator       User   @relation("TrainingCreator",fields: [creator_id], references: [id])
+  userPlan      UserPlan[] @relation("TrainingPlan")
+  planExercise  PlanExercise[] @relation("PlanExercise")
+}
+
+model UserPlan {
+  user_id    String
+  plan_id    String
+  start_date DateTime
+  end_date   DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  deleted_on DateTime?
+  user       User   @relation("UserPlan",fields: [user_id], references: [id])
+  plan       TrainingPlan @relation("TrainingPlan",fields: [plan_id], references: [id])
+
+  @@id([user_id, plan_id])
+}
+
+model Category { 
+  id         String   @id @default(uuid())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  deleted_on DateTime?
+  machines   Machine[]
+  exercises  Exercise[]
+}
+
+model Machine {
+  id         String @id @default(uuid())
+  name       String
+  photo      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  deleted_on DateTime?
+  categories Category[]
+  exercise   Exercise[] @relation("ExerciseMachine")
+}
+
+model Exercise{ 
+  id            String @id @default(uuid())
+  name          String
+  photo         String
+  machine_id    String
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  deleted_on    DateTime?
+  categories    Category[]
+  machine       Machine  @relation("ExerciseMachine", fields: [machine_id], references: [id])
+  planExercise  PlanExercise[] @relation("Exercise")
+}
+
+model PlanExercise {
+  id                String @id @default(uuid())
+  plan_id           String 
+  exercise_id       String
+  repetitions       Int
+  sets              Int
+  rest_between_sets Int
+  day               String
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  deleted_on        DateTime?
+  plan              TrainingPlan @relation("PlanExercise", fields: [plan_id], references: [id]) 
+  exercise          Exercise @relation("Exercise", fields: [exercise_id], references: [id])
+}
+model ContractCategory {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  created_at DateTime @default(now()) 
+  updated_at DateTime @updatedAt
+  deleted_on DateTime?
+  contracts  Contract[]
+}
+
+model Contract {
+  id              String          @id @default(uuid())
+  beneficiary_id  String
+  provider_id     String
+  start_date      DateTime
+  end_date        DateTime?
+  category_id     String
+  created_at      DateTime        @default(now())
+  updated_at      DateTime        @updatedAt
+  deleted_on      DateTime?
+  beneficiary     User            @relation("BeneficiaryContracts", fields: [beneficiary_id], references: [id])
+  provider        User            @relation("ProviderContracts", fields: [provider_id], references: [id])
+  category        ContractCategory @relation(fields: [category_id], references: [id])
 }

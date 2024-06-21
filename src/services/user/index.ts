@@ -8,12 +8,18 @@ const prisma = new PrismaClient();
 
 export default class UserService {
   static async getAll(): Promise<NormalizedUser[]> {
-    return prisma.user.findMany({ select: schema });
+    return prisma.user.findMany({
+      where: { deleted_on: null },
+      select: schema
+    });
   }
 
   static async find(query: FindQuery<User>): Promise<NormalizedUser> {
     return prisma.user.findFirst({
-      where: query,
+      where: {
+        ...query,
+        deleted_on: null
+      },
       select: schema
     });
   }
@@ -32,6 +38,14 @@ export default class UserService {
     return prisma.user.update({
       where: { id },
       data,
+      select: schema
+    });
+  }
+
+  static async delete(id: string): Promise<NormalizedUser> {
+    return prisma.user.update({
+      where: { id },
+      data: { deleted_on: new Date() },
       select: schema
     });
   }
