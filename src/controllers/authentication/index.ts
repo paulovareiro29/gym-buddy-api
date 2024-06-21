@@ -68,7 +68,7 @@ export default class AuthenticationController {
         role_id: body.role_id!
       });
 
-      return response.success({ data: user });
+      return response.success({ data: { user } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -113,5 +113,9 @@ export default class AuthenticationController {
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
+  }
+
+  static async me(_: Request, response: Response) {
+    return response.success({ data: { user: response.locals.user } });
   }
 }

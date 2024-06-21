@@ -6,13 +6,22 @@ import schema from './schema';
 const prisma = new PrismaClient();
 
 export default class MetricService {
-  static async getAll(): Promise<NormalizedMetric[]> {
-    return prisma.metric.findMany({ select: schema });
+  static async getAll(filters: Record<string, any>): Promise<NormalizedMetric[]> {
+    return prisma.metric.findMany({
+      where: {
+        ...filters,
+        deleted_on: null
+      },
+      select: schema
+    });
   }
 
   static async find(query: FindQuery<Metric>): Promise<NormalizedMetric> {
     return prisma.metric.findFirst({
-      where: query,
+      where: {
+        ...query,
+        deleted_on: null
+      },
       select: schema
     });
   }
@@ -29,5 +38,24 @@ export default class MetricService {
       where: { id },
       data
     });
+  }
+
+  static async delete(id: string): Promise<Metric> {
+    return prisma.metric.update({
+      where: { id },
+      data: { deleted_on: new Date() }
+    });
+  }
+
+  static async count(filters: any): Promise<number> {
+    const result = await prisma.metric.aggregate({
+      _count: { _all: true },
+      where: {
+        ...filters,
+        deleted_on: null
+      }
+    });
+    // eslint-disable-next-line no-underscore-dangle
+    return result._count?._all ?? 0;
   }
 }

@@ -5,34 +5,33 @@ import { handlePrismaError } from '../../lib/handle-prisma-error';
 
 export default class MetricTypesController {
   static async getAll(_: Request, response: Response) {
-    const metricsTypes = await MetricTypesService.getAll();
-    return response.success({ data: metricsTypes });
+    const metricTypes = await MetricTypesService.getAll();
+    return response.success({ data: { metricTypes } });
   }
 
   static async find(request: Request, response: Response) {
     const { id } = request.params as any as FindMetricTypesRequest;
 
-    const metricsType = await MetricTypesService.find({ id });
+    const metricType = await MetricTypesService.find({ id });
 
-    if (!metricsType) {
-      return response.notfound();
+    if (!metricType) {
+      return response.notfound({ errors: { name: 'Metric Type not found' } });
     }
 
-    return response.success({ data: metricsType });
+    return response.success({ data: { metricType } });
   }
 
   static async create(request: Request, response: Response) {
     const body = request.body as any as CreateMetricTypesRequest;
 
-    // TODO: Validate if the logged user is a admin
     if (!body.name) {
       return response.badrequest({ errors: { name: 'Name is required' } });
     }
 
     try {
-      const metricsType = await MetricTypesService.create({ name: body.name! });
+      const metricType = await MetricTypesService.create({ name: body.name! });
 
-      return response.success({ data: metricsType });
+      return response.success({ data: { metricType } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -42,12 +41,25 @@ export default class MetricTypesController {
     const { id } = request.params as any as FindMetricTypesRequest;
     const body = request.body as any as PatchMetricTypesRequest;
 
-    // TODO: Validate if the logged user is a admin
+    try {
+      const metricType = await MetricTypesService.patch(id, { name: body.name });
+
+      return response.success({ data: { metricType } });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
+  }
+
+  static async delete(request: Request, response: Response) {
+    const { id } = request.params as any as FindMetricTypesRequest;
 
     try {
-      const metricsType = await MetricTypesService.patch(id, { name: body.name });
+      const metricType = await MetricTypesService.delete(id);
 
-      return response.success({ data: metricsType });
+      if (!metricType) {
+        return response.notfound({ errors: { name: 'Metric Type not found' } });
+      }
+      return response.success({ data: { metricType } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
