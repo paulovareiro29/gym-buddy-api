@@ -3,9 +3,9 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import routes from './routes';
-import loadCoreData from './lib/core/load-core-data';
+/* import loadCoreData from './lib/core/load-core-data'; */
 
-loadCoreData();
+// loadCoreData();
 
 const app = express();
 app.use(bodyParser.json({ limit: 5242880 }));
