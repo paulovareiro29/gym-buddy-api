@@ -11,10 +11,11 @@ const app = express();
 app.use(bodyParser.json({ limit: 5242880 }));
 app.use(cors());
 
+app.get('/', (_, res) => res.json('Welcome to the Gym Buddy API'));
 app.use('/api', routes);
 
 app.listen(process.env.SERVER_PORT, () =>
   console.log(`Listening on port ${process.env.SERVER_PORT}`)
 );
 
-export default app;
+module.exports = app;
