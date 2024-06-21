@@ -7,7 +7,23 @@ const router = Router();
 router
   .get('/', AuthenticationMiddleware.authenticated, MetricController.getAll)
   .get('/:id', AuthenticationMiddleware.authenticated, MetricController.find)
-  .post('/', AuthenticationMiddleware.authenticated, MetricController.create)
-  .put('/:id', AuthenticationMiddleware.authenticated, MetricController.patch);
+  .post(
+    '/',
+    AuthenticationMiddleware.authenticated,
+    AuthenticationMiddleware.authorized(['admin', 'trainer']),
+    MetricController.create
+  )
+  .put(
+    '/:id',
+    AuthenticationMiddleware.authenticated,
+    AuthenticationMiddleware.authorized(['admin', 'trainer']),
+    MetricController.patch
+  )
+  .delete(
+    '/:id',
+    AuthenticationMiddleware.authenticated,
+    AuthenticationMiddleware.authorized(['admin', 'trainer']),
+    MetricController.delete
+  );
 
 export default router;

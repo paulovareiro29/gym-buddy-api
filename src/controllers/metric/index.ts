@@ -6,9 +6,19 @@ import UserService from '../../services/user';
 import MetricTypesService from '../../services/metricTypes';
 
 export default class MetricController {
-  static async getAll(_: Request, response: Response) {
-    const metric = await MetricService.getAll();
-    return response.success({ data: metric });
+  static async getAll(request: Request, response: Response) {
+    const { user_id } = request.query as { user_id?: string };
+
+    const filter: Record<string, any> = {};
+    if (user_id) {
+      filter.user_id = user_id;
+    }
+    try {
+      const metrics = await MetricService.getAll(filter);
+      return response.success({ data: { metrics } });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
   }
 
   static async find(request: Request, response: Response) {
@@ -17,10 +27,10 @@ export default class MetricController {
     const metric = await MetricService.find({ id });
 
     if (!metric) {
-      return response.notfound();
+      return response.notfound({ errors: { name: 'Metric not found' } });
     }
 
-    return response.success({ data: metric });
+    return response.success({ data: { metric } });
   }
 
   static async create(request: Request, response: Response) {
@@ -66,7 +76,7 @@ export default class MetricController {
         date: body.date!
       });
 
-      return response.success({ data: metric });
+      return response.success({ data: { metric } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
@@ -76,17 +86,54 @@ export default class MetricController {
     const { id } = request.params as any as FindMetricRequest;
     const body = request.body as any as PatchMetricRequest;
 
-    // TODO: Verify if the logged user is an administrator or a personal trainer
     try {
+      if (body.user_id) {
+        const user = await UserService.find({ id: body.user_id });
+
+        if (!user) {
+          return response.badrequest({ errors: { user_id: 'Invalid User ID provided' } });
+        }
+      }
+      if (body.creator_id) {
+        const creator = await UserService.find({ id: body.creator_id });
+
+        if (!creator) {
+          return response.badrequest({ errors: { creator_id: 'Invalid Creator ID provided' } });
+        }
+      }
+      if (body.type_id) {
+        const metricType = await MetricTypesService.find({ id: body.type_id });
+
+        if (!metricType) {
+          return response.badrequest({ errors: { type_id: 'Invalid Type ID provided' } });
+        }
+      }
+
       const metric = await MetricService.patch(id, {
-        user_id: body.user_id!,
-        creator_id: body.creator_id!,
-        type_id: body.type_id!,
-        value: body.value!,
-        date: body.date!
+        user_id: body.user_id,
+        creator_id: body.creator_id,
+        type_id: body.type_id,
+        value: body.value,
+        date: body.date
       });
 
-      return response.success({ data: metric });
+      return response.success({ data: { metric } });
+    } catch (err) {
+      return response.error(handlePrismaError(err));
+    }
+  }
+
+  static async delete(request: Request, response: Response) {
+    const { id } = request.params as any as FindMetricRequest;
+
+    try {
+      const metric = await MetricService.delete(id);
+
+      if (!metric) {
+        return response.notfound({ errors: { name: 'Metric not found' } });
+      }
+
+      return response.success({ data: { metric } });
     } catch (err) {
       return response.error(handlePrismaError(err));
     }
